@@ -3,4 +3,4 @@ project(Abschlussaufgabe)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Abschlussaufgabe main.cpp)
+add_executable(Abschlussaufgabe src/main.cpp)
