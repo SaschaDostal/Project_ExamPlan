@@ -9,16 +9,16 @@
 
 class RoomParser : CSVParser {
 public:
-    struct room {
-        char *description;
-        char *location; // could also be a struct: e.g. struct location { int building, int floor, int room};
-        char *seatCount;
+    struct Room {
+        std::string description;
+        std::string location; // could also be a struct: e.g. struct location { int building, int floor, int room};
+        std::string seatCount;
     };
     RoomParser();
     virtual ~RoomParser();
-    void getRooms(room *rooms, int &roomCount);
+    Room* getRooms();
 private:
-    room *rooms;
+    Room *rooms;
     int roomCount;
 };
 
