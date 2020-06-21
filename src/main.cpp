@@ -14,10 +14,12 @@ int main() {
     string fileName = "../InputData/Raumliste.csv";
     CSVParser csvParser(fileName, CSVParser::separator::comma);
 
+    /*example use of CSVParser get Function
     vector<string> out;
     out = csvParser.getColumn(2);
 
     for (const auto& elem : out){
         cout << elem << " || ";
     }
+     */
 }
