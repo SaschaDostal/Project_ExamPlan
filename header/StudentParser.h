@@ -12,11 +12,11 @@ class StudentParser : CSVParser {
 public:
     struct Student {
         int matrikelNumber;
-        ExamParser::Exam exam;
+        ExamParser::Exam* exam;
     };
     StudentParser();
     virtual ~StudentParser();
-    void getStudents(Student *students, int &studentCount);
+    Student* getStudents();
 
 private:
     Student *students;
