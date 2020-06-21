@@ -8,49 +8,24 @@
 
 using namespace std;
 
-CSVParser::CSVParser(char *fileName) : fileName(fileName), separator(separator::semicolon), rowCount(60), columnCount(60), maxCellLength(60){
+CSVParser::CSVParser(string fileName) : fileName(fileName), separator(separator::semicolon){
     parse();
 }
 
-CSVParser::CSVParser (char *fileName, enum separator separator, int rowCount, int columnCount, int maxCellLength) : fileName(fileName), separator(separator), rowCount(rowCount), columnCount(columnCount), maxCellLength(maxCellLength) {
-    parse();
-}
-
-CSVParser::CSVParser(char *fileName, enum separator separator) : fileName(fileName), separator(separator), rowCount(60), columnCount(60), maxCellLength(60){
+CSVParser::CSVParser(string fileName, enum separator separator) : fileName(fileName), separator(separator){
     parse();
 }
 
 void CSVParser::parse(){
-    tData = (char***) malloc(rowCount * sizeof(char **));
-    for (int i=0; i<rowCount; i++){
-        tData[i] = (char **) malloc(columnCount * sizeof(char *));
-        for (int b=0; b<maxCellLength; b++){
-            tData[i][b] = (char *) malloc(maxCellLength * sizeof(char));
-        }
-    }
-    int nsize = columnCount*maxCellLength;
-    char data[nsize] = {0};
     file.open(fileName);
     if(file.is_open()){
-        int row = 0;
-        while (file.getline(data,nsize)){
-            int column = 0;
-            int tmpI = 0;
-            char tmp[maxCellLength] = {0};
-            for(int i=0; i<nsize; i++){
-                if(data[i] == 0){
-                    break;
-                }
-                if(data[i] == ((separator == separator::comma)? ',':';')){
-                    tmp[tmpI] = 0;
-                    tData[row][column] = tmp;
-                    tmpI = 0;
-                    for(int c=0; c<maxCellLength; c++)
-                        tmp[c] = 0;
-                } else {
-                    tmp[tmpI++] = data[i];
-                }
+        string line;
+        while (getline(file,line)){
+            vector<string> tmp;
+            for (int separatorIndex = 0; separatorIndex < line.length(); separatorIndex = line.find((separator == separator::comma)? ',':';', separatorIndex+1)){
+                tmp.push_back(line.substr(separatorIndex+1, line.find((separator == separator::comma)? ',':';', separatorIndex+1)-separatorIndex));
             }
+            tData.push_back(tmp);
         }
     } else {
         cout << "error opening file" << '\n';
@@ -58,23 +33,24 @@ void CSVParser::parse(){
     file.close();
 }
 
-void CSVParser::getData(tableData *tableData) {
-    tableData = &tData;
+tableData CSVParser::getData() {
+    return tData;
 }
 
-void CSVParser::getCell(int row, int column, char* content[]) {
-    content = &tData[row][column];
+string CSVParser::getCell(int row, int column) {
+    return tData[row][column];
 }
 
-void CSVParser::getColumn(int column, char ***content) {
-    char tmpContent[rowCount][maxCellLength];
-    for(int i=0; i<rowCount; i++) {
-        //getCell(i, column, content[i]);
+vector<string> CSVParser::getColumn(int column) {
+    vector<string> tmp;
+    for(int i=0; i < tData.size(); i++) {
+        tmp.push_back(tData.at(i).at(column));
     }
+    return tmp;
 }
 
-void CSVParser::getRow(int row, char ***content) {
-    content = &tData[row];
+vector<string> CSVParser::getRow(int row) {
+    return tData[row];
 }
 
 CSVParser::~CSVParser() = default;
