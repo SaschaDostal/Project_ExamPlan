@@ -5,14 +5,19 @@
 #include "../header/StudentParser.h"
 #include "../header/RoomParser.h"
 
+#include <string>
+
 using namespace std;
 
 int main() {
-    //example use of CSVParser: always add 1 to maxCellLength for String ending 0
-    CSVParser csvParser("../InputData/Raumliste.csv", CSVParser::separator::comma, 54, 10, 16);
+    //example use of CSVParser:
+    string fileName = "../InputData/Raumliste.csv";
+    CSVParser csvParser(fileName, CSVParser::separator::comma);
 
-    char *out = (char *) malloc(25);
-    csvParser.getCell(3, 7, &out);
-    cout << out << endl;
+    vector<string> out;
+    out = csvParser.getColumn(2);
 
+    for (const auto& elem : out){
+        cout << elem << " || ";
+    }
 }
