@@ -6,31 +6,28 @@
 #define ABSCHLUSSAUFGABE_CSVPARSER_H
 
 #include <fstream>
+#include <vector>
 
-typedef char*** tableData;
+typedef std::vector<std::vector<std::string>> tableData;
 
 class CSVParser {
 public:
     enum class separator{ comma, semicolon};
-    CSVParser(char *fileName);
-    CSVParser(char *fileName, separator separator, int rowCount, int columnCount, int maxCellLength);
-    CSVParser(char *fileName, separator separator);
+    CSVParser(std::string fileName);
+    CSVParser(std::string fileName, separator separator);
     virtual ~CSVParser();
 
-//protected:
+protected:
     void parse();
-    void getData(tableData *tableData);
-    void getCell(int row, int column, char* content[]);
-    void getRow(int row, char*** content);
-    void getColumn(int column, char*** content);
+    tableData getData();
+    std::string getCell(int row, int column);
+    std::vector<std::string> getRow(int row);
+    std::vector<std::string> getColumn(int column);
 
 private:
     separator separator;
-    char *fileName;
+    std::string fileName;
     std::ifstream file;
-    int rowCount;
-    int columnCount;
-    int maxCellLength;
     tableData tData;
 };
 
