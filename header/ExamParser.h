@@ -10,21 +10,21 @@
 class ExamParser : CSVParser {
 public:
     struct Exam{
-        char *fieldOfStudy;
+        std::string fieldOfStudy;
         int distributorNr;
         int examVersion;
         int examNumber;
-        char *examName;
-        char *examiner;
+        std::string examName;
+        std::string examiner;
 
         int examLength;
-        char *typeOfExam;
+        std::string typeOfExam;
         int examSemester;
         bool provided;
     };
     ExamParser();
     virtual ~ExamParser();
-    void getExams(Exam *exams, int &examCount);
+    Exam* getExams();
 private:
     Exam *exams;
     int examCount;
