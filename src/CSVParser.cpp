@@ -22,8 +22,18 @@ void CSVParser::parse(){
         string line;
         while (getline(file,line)){
             vector<string> tmp;
-            for (int separatorIndex = 0; separatorIndex < line.length(); separatorIndex = line.find((separator == separator::comma)? ',':';', separatorIndex+1)){
-                tmp.push_back(line.substr(separatorIndex+1, line.find((separator == separator::comma)? ',':';', separatorIndex+1)-separatorIndex));
+            for (int separatorIndex = 0; separatorIndex < line.length()+1;){
+                string tmpCell = line.substr(separatorIndex, line.find((separator == separator::comma)? ',':';', separatorIndex)-separatorIndex);
+                if(tmpCell.size() > 0){
+                    tmp.push_back(tmpCell);
+                } else {
+                    tmp.push_back("0");
+                }
+                if(line.find((separator == separator::comma)? ',':';', separatorIndex) != -1){
+                    separatorIndex = line.find((separator == separator::comma)? ',':';', separatorIndex)+1;
+                } else {
+                    break;
+                }
             }
             tData.push_back(tmp);
         }
