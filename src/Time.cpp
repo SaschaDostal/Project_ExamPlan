@@ -4,17 +4,21 @@
 
 #include "../header/Time.h"
 
-Time::Time(int day, int min) {
+Time::Time(int day, int min, int duration) {
     this->day = day;
     this->min = min;
+    this->duration = duration;
 }
 
-bool Time::diff(Time a, Time b, int min) {
+bool Time::diff(Time a, Time b, int diff) {
+    // Test unterschiedlicher Tag
     if(a.day != b.day) return true;
-    if(a.min > b.min){
-        if((a.min - b.min) < min) return false;
+    // Prüfen welche Prüfung früher startet
+    if(a.min < b.min){
+        // Prüfen ob Start von a + Dauer + Differenz <= Start von b
+        if(a.min + a.duration + diff <= b.min) return true;
     } else {
-        if((b.min - a.min) < min) return false;
+        if(b.min + b.duration + diff <= a.min) return true;
     }
-    return true;
+    return false;
 }
