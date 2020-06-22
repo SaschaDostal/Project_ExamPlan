@@ -11,7 +11,7 @@ class ExamParser : CSVParser {
 public:
     struct Exam{
         std::string fieldOfStudy;
-        int distributorNr;
+        std::string distributor;
         int examVersion;
         int examNumber;
         std::string examName;
@@ -22,11 +22,11 @@ public:
         int examSemester;
         bool provided;
     };
-    ExamParser();
+    ExamParser(std::string fileName);
     virtual ~ExamParser();
-    Exam* getExams();
+    std::vector<Exam> getExams();
 private:
-    Exam *exams;
+    std::vector<Exam> exams;
     int examCount;
 };
 
