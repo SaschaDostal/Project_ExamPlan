@@ -13,6 +13,8 @@ private:
     int day;
     // Minute 0-599; Minute 0 entspricht 8 Uhr, Minute 600 entspricht 18 Uhr
     int min;
+    // Gibt true zurück, wenn Time a und b mindestens "min" minuten auseinander liegen
+    static bool diff(Time a, Time b, int min);
 };
 
 #endif //ABSCHLUSSAUFGABE_TIME_H
