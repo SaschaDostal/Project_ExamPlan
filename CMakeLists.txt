@@ -3,4 +3,4 @@ project(Abschlussaufgabe)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Abschlussaufgabe src/main.cpp header/CSVParser.h header/ExamParser.h header/StudentParser.h header/RoomParser.h header/CSVWriter.h src/CSVParser.cpp src/CSVWriter.cpp src/ExamParser.cpp src/StudentParser.cpp src/RoomParser.cpp)
+add_executable(Abschlussaufgabe src/main.cpp header/CSVParser.h header/ExamParser.h header/StudentParser.h header/RoomParser.h header/CSVWriter.h src/CSVParser.cpp src/CSVWriter.cpp src/ExamParser.cpp src/StudentParser.cpp src/RoomParser.cpp header/Time.h src/Time.cpp)
