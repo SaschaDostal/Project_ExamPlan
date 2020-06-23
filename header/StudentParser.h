@@ -17,7 +17,7 @@ public:
     };
     StudentParser(std::string fileName,  std::vector<ExamParser::Exam> allExams);
     virtual ~StudentParser();
-    std::vector<Student> getStudents();
+    std::vector<Student>& getStudents();
     bool testTime(Time t,  StudentParser::Student s);
 private:
     std::vector<Student> students;

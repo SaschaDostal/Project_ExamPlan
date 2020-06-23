@@ -35,7 +35,7 @@ int main() {
             for (StudentParser::Student& s : studentParser.getStudents()) {
                 if (!studentParser.testTime(Time(day, min, e.examLength), s)) valid = false;
             }
-            if(valid){
+            if(!valid){
                 min += 15;
                 if(min >= 600){
                     min -=600;

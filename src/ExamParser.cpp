@@ -30,6 +30,6 @@ ExamParser::ExamParser(string fileName) : CSVParser(fileName, separator::semicol
 
 ExamParser::~ExamParser() = default;
 
-vector<ExamParser::Exam> ExamParser::getExams() {
+vector<ExamParser::Exam>& ExamParser::getExams() {
     return exams;
 }

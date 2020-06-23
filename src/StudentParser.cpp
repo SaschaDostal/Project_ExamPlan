@@ -58,7 +58,7 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
 
 StudentParser::~StudentParser() = default;
 
-vector<StudentParser::Student> StudentParser::getStudents() {
+vector<StudentParser::Student> &StudentParser::getStudents() {
     return students;
 }
 

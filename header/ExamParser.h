@@ -25,7 +25,7 @@ public:
     };
     ExamParser(std::string fileName);
     virtual ~ExamParser();
-    std::vector<Exam> getExams();
+    std::vector<Exam>& getExams();
 private:
     std::vector<Exam> exams;
     int examCount;
