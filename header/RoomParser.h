@@ -12,13 +12,13 @@ public:
     struct Room {
         std::string description;
         std::string location; // could also be a struct: e.g. struct location { int building, int floor, int room};
-        std::string seatCount;
+        int seatCount;
     };
-    RoomParser();
+    RoomParser(std::string fileName);
     virtual ~RoomParser();
-    Room* getRooms();
+    std::vector<Room> getRooms();
 private:
-    Room *rooms;
+    std::vector<Room> rooms;
     int roomCount;
 };
 

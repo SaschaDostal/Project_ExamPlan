@@ -12,14 +12,13 @@ class StudentParser : CSVParser {
 public:
     struct Student {
         int matrikelNumber;
-        ExamParser::Exam* exam;
+        std::vector<ExamParser::Exam> exams;
     };
-    StudentParser();
+    StudentParser(std::string fileName);
     virtual ~StudentParser();
-    Student* getStudents();
-
+    std::vector<Student> getStudents();
 private:
-    Student *students;
+    std::vector<Student> students;
     int studentCount;
 };
 #endif //ABSCHLUSSAUFGABE_STUDENTPARSER_H
