@@ -23,9 +23,11 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
         // und füge Student zum Student-Vector hinzu
         if(!studExists){
             student.matrikelNumber = stoi(studentData.at(0));
+            student.fieldOfStudy = studentData.at(1);
             bool examExists = false;
             for(ExamParser::Exam& e : allExams){
-                if(stoi(studentData.at(3)) == e.examNumber){
+                if(stoi(studentData.at(3)) == e.examNumber  && stoi(studentData.at(2)) == e.examVersion
+                    && (e.fieldOfStudy.compare(studentData.at(1)) == 0)){
                     student.exams.push_back(e);
                     examExists = true;
                 }
@@ -42,7 +44,8 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
                 if(stoi(studentData.at(0)) == stud.matrikelNumber){
                     bool examExists = false;
                     for(ExamParser::Exam& e : allExams){
-                        if(stoi(studentData.at(3)) == e.examNumber){
+                        if(stoi(studentData.at(3)) == e.examNumber && stoi(studentData.at(2)) == e.examVersion
+                            && (e.fieldOfStudy.compare(studentData.at(1)) == 0)){
                             stud.exams.push_back(e);
                             examExists = true;
                         }

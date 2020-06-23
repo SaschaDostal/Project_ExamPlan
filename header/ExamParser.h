@@ -22,6 +22,7 @@ public:
         std::string typeOfExam;
         int examSemester;
         bool provided;
+        bool planned;
     };
     ExamParser(std::string fileName);
     virtual ~ExamParser();

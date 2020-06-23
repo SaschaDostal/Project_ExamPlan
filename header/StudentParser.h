@@ -13,6 +13,7 @@ class StudentParser : CSVParser {
 public:
     struct Student {
         int matrikelNumber;
+        std::string fieldOfStudy;
         std::vector<ExamParser::Exam> exams;
     };
     StudentParser(std::string fileName,  std::vector<ExamParser::Exam> allExams);

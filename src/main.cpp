@@ -25,15 +25,22 @@ int main() {
     string studentFile = "../InputData/Anmeldungen_WS2019_KL.csv";
     StudentParser studentParser(studentFile, exams);
 
-
     for(ExamParser::Exam& e : examParser.getExams()){
         bool run = true;
+        if(e.planned) run = false;
         int day = 1;
         int min = 0;
         while(run) {
             bool valid = true;
             for (StudentParser::Student& s : studentParser.getStudents()) {
-                if (!studentParser.testTime(Time(day, min, e.examLength), s)) valid = false;
+                bool studentHasExamE = false;
+                for (ExamParser::Exam& ex : s.exams){
+                    if ((e.examNumber == ex.examNumber && e.examVersion == ex.examVersion && (e.fieldOfStudy.compare(ex.fieldOfStudy) == 0))
+                        || (e.examName == ex.examName)) {
+                        studentHasExamE = true;
+                    }
+                }
+                if (!studentParser.testTime(Time(day, min, e.examLength), s) && studentHasExamE) valid = false;
             }
             if(!valid){
                 min += 15;
@@ -43,13 +50,24 @@ int main() {
                 }
             } else {
                 e.examTime = Time(day, min, e.examLength);
-                for (StudentParser::Student& s : studentParser.getStudents()) {
-                    for(ExamParser::Exam& ex : s.exams){
-                        if(e.examNumber == ex.examNumber) ex.examTime = Time(day, min, e.examLength);
+                for(ExamParser::Exam& ex : examParser.getExams()){
+                    if((e.examNumber == ex.examNumber && e.examVersion == ex.examVersion && (e.fieldOfStudy.compare(ex.fieldOfStudy) == 0))
+                        || (e.examName == ex.examName)){
+                        ex.examTime = Time(day, min, e.examLength);
+                        ex.planned = true;
+                        cout << "Time scheduled: Day: " << ex.examTime.day << " Min: " << ex.examTime.min
+                            << ", duration " << ex.examTime.duration << " Exam: " << ex.examNumber << " " << ex.examName  << endl;
                     }
                 }
-                cout << "Time scheduled: exam " << e.examNumber << ", time Day " << e.examTime.day
-                    << " Min " << e.examTime.min << ", duration " << e.examTime.duration << endl;
+                for (StudentParser::Student& s : studentParser.getStudents()) {
+                    for(ExamParser::Exam& ex : s.exams){
+                        if((e.examNumber == ex.examNumber && e.examVersion == ex.examVersion && (e.fieldOfStudy.compare(ex.fieldOfStudy) == 0))
+                            || (e.examName == ex.examName)){
+                            ex.examTime = Time(day, min, e.examLength);
+                            ex.planned = true;
+                        }
+                    }
+                }
                 run = false;
             }
         }
