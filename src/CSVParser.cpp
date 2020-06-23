@@ -8,11 +8,11 @@
 
 using namespace std;
 
-CSVParser::CSVParser(string fileName) : fileName(fileName), separator(separator::semicolon){
+CSVParser::CSVParser(string fileName) : fileName(fileName), mySeparator(separator::semicolon){
     parse();
 }
 
-CSVParser::CSVParser(string fileName, enum separator separator) : fileName(fileName), separator(separator){
+CSVParser::CSVParser(string fileName, enum separator separator) : fileName(fileName), mySeparator(separator){
     parse();
 }
 
@@ -23,14 +23,14 @@ void CSVParser::parse(){
         while (getline(file,line)){
             vector<string> tmp;
             for (int separatorIndex = 0; separatorIndex < line.length()+1;){
-                string tmpCell = line.substr(separatorIndex, line.find((separator == separator::comma)? ',':';', separatorIndex)-separatorIndex);
+                string tmpCell = line.substr(separatorIndex, line.find((mySeparator == separator::comma)? ',':';', separatorIndex)-separatorIndex);
                 if(tmpCell.size() > 0){
                     tmp.push_back(tmpCell);
                 } else {
                     tmp.push_back("0");
                 }
-                if(line.find((separator == separator::comma)? ',':';', separatorIndex) != -1){
-                    separatorIndex = line.find((separator == separator::comma)? ',':';', separatorIndex)+1;
+                if(line.find((mySeparator == separator::comma)? ',':';', separatorIndex) != -1){
+                    separatorIndex = line.find((mySeparator == separator::comma)? ',':';', separatorIndex)+1;
                 } else {
                     break;
                 }

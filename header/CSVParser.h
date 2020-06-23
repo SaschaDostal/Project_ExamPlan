@@ -25,7 +25,7 @@ protected:
     std::vector<std::string> getColumn(int column);
 
 private:
-    separator separator;
+    separator mySeparator;
     std::string fileName;
     std::ifstream file;
     tableData tData;
