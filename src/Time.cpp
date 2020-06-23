@@ -10,6 +10,12 @@ Time::Time(int day, int min, int duration) {
     this->duration = duration;
 }
 
+Time::Time(){
+    day = 0;
+    min = 0;
+    duration = 0;
+}
+
 bool Time::diff(Time a, Time b, int diff) {
     // Test unterschiedlicher Tag
     if(a.day != b.day) return true;

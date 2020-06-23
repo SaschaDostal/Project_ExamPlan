@@ -8,7 +8,9 @@
 class Time {
 public:
     Time(int day, int min, int duraton);
-private:
+    Time();
+    // Gibt true zurück, wenn Time a und b mindestens "min" minuten auseinander liegen
+    static bool diff(Time a, Time b, int diff);
     // Start der Prüfung
     // Prüfungstage 1-10;
     int day;
@@ -16,8 +18,7 @@ private:
     int min;
     // Dauer
     int duration;
-    // Gibt true zurück, wenn Time a und b mindestens "min" minuten auseinander liegen
-    static bool diff(Time a, Time b, int diff);
+private:
 };
 
 #endif //ABSCHLUSSAUFGABE_TIME_H

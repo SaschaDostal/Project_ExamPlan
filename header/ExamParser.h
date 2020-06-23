@@ -6,6 +6,7 @@
 #define ABSCHLUSSAUFGABE_EXAMPARSER_H
 
 #include "CSVParser.h"
+#include "Time.h"
 
 class ExamParser : CSVParser {
 public:
@@ -16,7 +17,7 @@ public:
         int examNumber;
         std::string examName;
         std::string examiner;
-
+        Time examTime;
         int examLength;
         std::string typeOfExam;
         int examSemester;

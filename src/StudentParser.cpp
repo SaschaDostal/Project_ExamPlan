@@ -14,7 +14,7 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
         Student student = {};
         vector<string> studentData = getRow(i);
         bool studExists = false;
-        for(Student stud : students){
+        for(Student& stud : students){
             if(stoi(studentData.at(0)) == stud.matrikelNumber){
                 studExists = true;
             }
@@ -24,7 +24,7 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
         if(!studExists){
             student.matrikelNumber = stoi(studentData.at(0));
             bool examExists = false;
-            for(ExamParser::Exam e : allExams){
+            for(ExamParser::Exam& e : allExams){
                 if(stoi(studentData.at(3)) == e.examNumber){
                     student.exams.push_back(e);
                     examExists = true;
@@ -38,10 +38,10 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
 
         // Wenn Student existiert, suche Student in Student-Vector und füge Prüfung hinzu
         } else {
-            for(Student stud : students){
+            for(Student& stud : students){
                 if(stoi(studentData.at(0)) == stud.matrikelNumber){
                     bool examExists = false;
-                    for(ExamParser::Exam e : allExams){
+                    for(ExamParser::Exam& e : allExams){
                         if(stoi(studentData.at(3)) == e.examNumber){
                             stud.exams.push_back(e);
                             examExists = true;
@@ -60,4 +60,16 @@ StudentParser::~StudentParser() = default;
 
 vector<StudentParser::Student> StudentParser::getStudents() {
     return students;
+}
+
+bool StudentParser::testTime(Time t, StudentParser::Student s){
+    int dayArray[11] = {0};
+    dayArray[t.day]++;
+    for(ExamParser::Exam& e : s.exams){
+        dayArray[e.examTime.day]++;
+        if(!Time::diff(t, e.examTime, 240)){ //| (dayArray[e.examTime.day] > 2 & e.examTime.day > 0)){
+            return false;
+        }
+    }
+    return true;
 }

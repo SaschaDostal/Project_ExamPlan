@@ -22,6 +22,7 @@ ExamParser::ExamParser(string fileName) : CSVParser(fileName, separator::semicol
             exam.typeOfExam = examData.at(10);
             exam.examSemester = stoi(examData.at(11));
             exam.provided = (examData.at(12) == "J");
+            exam.examTime.duration = exam.examLength;
         }
         exams.push_back(exam);
     }

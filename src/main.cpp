@@ -25,6 +25,37 @@ int main() {
     string studentFile = "../InputData/Anmeldungen_WS2019_KL.csv";
     StudentParser studentParser(studentFile, exams);
 
+
+    for(ExamParser::Exam& e : examParser.getExams()){
+        bool run = true;
+        int day = 1;
+        int min = 0;
+        while(run) {
+            bool valid = true;
+            for (StudentParser::Student& s : studentParser.getStudents()) {
+                if (!studentParser.testTime(Time(day, min, e.examLength), s)) valid = false;
+            }
+            if(valid){
+                min += 15;
+                if(min >= 600){
+                    min -=600;
+                    day++;
+                }
+            } else {
+                e.examTime = Time(day, min, e.examLength);
+                for (StudentParser::Student& s : studentParser.getStudents()) {
+                    for(ExamParser::Exam& ex : s.exams){
+                        if(e.examNumber == ex.examNumber) ex.examTime = Time(day, min, e.examLength);
+                    }
+                }
+                cout << "Time scheduled: exam " << e.examNumber << ", time Day " << e.examTime.day
+                    << " Min " << e.examTime.min << ", duration " << e.examTime.duration << endl;
+                run = false;
+            }
+        }
+    }
+
+
     /*example use of CSVParser get Function:
     vector<string> out;
     out = csvParser.getColumn(2);

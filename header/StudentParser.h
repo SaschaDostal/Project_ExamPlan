@@ -7,6 +7,7 @@
 
 #include "CSVParser.h"
 #include "ExamParser.h"
+#include "Time.h"
 
 class StudentParser : CSVParser {
 public:
@@ -17,6 +18,7 @@ public:
     StudentParser(std::string fileName,  std::vector<ExamParser::Exam> allExams);
     virtual ~StudentParser();
     std::vector<Student> getStudents();
+    bool testTime(Time t,  StudentParser::Student s);
 private:
     std::vector<Student> students;
     int studentCount;
