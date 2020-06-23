@@ -14,7 +14,7 @@ public:
         int matrikelNumber;
         std::vector<ExamParser::Exam> exams;
     };
-    StudentParser(std::string fileName);
+    StudentParser(std::string fileName,  std::vector<ExamParser::Exam> allExams);
     virtual ~StudentParser();
     std::vector<Student> getStudents();
 private:
