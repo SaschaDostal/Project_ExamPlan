@@ -22,6 +22,9 @@ int main() {
     vector<ExamParser::Exam> exams = examParser.getExams();
     cout << exams.at(23).examName << endl;
 
+    string studentFile = "../InputData/Anmeldungen_WS2019_KL.csv";
+    StudentParser studentParser(studentFile, exams);
+
     /*example use of CSVParser get Function:
     vector<string> out;
     out = csvParser.getColumn(2);
