@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "../header/CSVParser.h"
 #include "../header/CSVWriter.h"
 #include "../header/ExamParser.h"
@@ -44,9 +45,14 @@ int main() {
             }
             if(!valid){
                 min += 15;
-                if(min >= 600){
-                    min -=600;
+                if(min + e.examLength >= 600){
+                    min -= (600 - e.examLength);
                     day++;
+                }
+                if(day > 10) day = 0;
+                if(day == 1 && min == 0){
+                    cout << "Error: No valid time found for Exam!" << endl;
+                    exit(10);
                 }
             } else {
                 e.examTime = Time(day, min, e.examLength);
@@ -55,8 +61,10 @@ int main() {
                         || (e.examName == ex.examName)){
                         ex.examTime = Time(day, min, e.examLength);
                         ex.planned = true;
-                        cout << "Time scheduled: Day: " << ex.examTime.day << " Min: " << ex.examTime.min
-                            << ", duration " << ex.examTime.duration << " Exam: " << ex.examNumber << " " << ex.examName  << endl;
+                        cout << "Time scheduled: Day: " << ex.examTime.day << " Time: " << std::setfill('0')
+                            << setw(2) << (int) ex.examTime.min/60 + 8 << ":" << setw(2) << ex.examTime.min % 60
+                            << ", duration " << ex.examTime.duration << " Exam: " << ex.examNumber << " "
+                            << ex.examName  << endl;
                     }
                 }
                 for (StudentParser::Student& s : studentParser.getStudents()) {

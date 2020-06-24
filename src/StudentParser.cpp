@@ -35,7 +35,8 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
             if(examExists){
                 students.push_back(student);
             } else {
-                cout << "Error: Exam with pnumber " << stoi(studentData.at(3)) << " does not exist." << endl;
+                cout << "egistration ignored: Exam with pnumber " << stoi(studentData.at(3)) << ", version " << studentData.at(2)
+                     << " stg " << studentData.at(1) << " does not exist." << endl;
             }
 
         // Wenn Student existiert, suche Student in Student-Vector und füge Prüfung hinzu
@@ -44,14 +45,15 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
                 if(stoi(studentData.at(0)) == stud.matrikelNumber){
                     bool examExists = false;
                     for(ExamParser::Exam& e : allExams){
-                        if(stoi(studentData.at(3)) == e.examNumber && stoi(studentData.at(2)) == e.examVersion
+                        if((stoi(studentData.at(3)) == e.examNumber) && (stoi(studentData.at(2)) == e.examVersion)
                             && (e.fieldOfStudy.compare(studentData.at(1)) == 0)){
                             stud.exams.push_back(e);
                             examExists = true;
                         }
                     }
                     if(!examExists){
-                        cout << "Error: Exam with pnumber " << stoi(studentData.at(3)) << " does not exist." << endl;
+                        cout << "Registration ignored: Exam with pnumber " << stoi(studentData.at(3)) << ", version " << studentData.at(2)
+                        << " stg " << studentData.at(1) << " does not exist." << endl;
                     }
                 }
             }
@@ -66,11 +68,17 @@ vector<StudentParser::Student> &StudentParser::getStudents() {
 }
 
 bool StudentParser::testTime(Time t, StudentParser::Student s){
-    int dayArray[11] = {0};
-    dayArray[t.day]++;
+    int count = 0;
+    /*for(int i = 1; i <= 10; i++){
+        if(i == t.day) count++;
+        for(ExamParser::Exam& e : s.exams){
+            if(i == e.examTime.day) count ++;
+        }
+        if(count > 2) return false;
+        count = 0;
+    }*/
     for(ExamParser::Exam& e : s.exams){
-        dayArray[e.examTime.day]++;
-        if(!Time::diff(t, e.examTime, 240)){ //| (dayArray[e.examTime.day] > 2 & e.examTime.day > 0)){
+        if(!Time::diff(t, e.examTime, 240)){
             return false;
         }
     }

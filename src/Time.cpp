@@ -28,3 +28,5 @@ bool Time::diff(Time a, Time b, int diff) {
     }
     return false;
 }
+
+Time::~Time() = default;

@@ -18,6 +18,7 @@ public:
     int min;
     // Dauer
     int duration;
+    virtual ~Time();
 private:
 };
 
