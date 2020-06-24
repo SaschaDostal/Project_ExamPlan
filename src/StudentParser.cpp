@@ -35,10 +35,9 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
             if(examExists){
                 students.push_back(student);
             } else {
-                cout << "egistration ignored: Exam with pnumber " << stoi(studentData.at(3)) << ", version " << studentData.at(2)
+                cout << "registration ignored: Exam with pnumber " << stoi(studentData.at(3)) << ", version " << studentData.at(2)
                      << " stg " << studentData.at(1) << " does not exist." << endl;
             }
-
         // Wenn Student existiert, suche Student in Student-Vector und füge Prüfung hinzu
         } else {
             for(Student& stud : students){
