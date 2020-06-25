@@ -26,13 +26,16 @@ int main() {
     string studentFile = "../InputData/Anmeldungen_WS2019_KL.csv";
     StudentParser studentParser(studentFile, exams);
 
+    // Schleife um allen Prüfungen einen Termin zuzuordnen
     for(ExamParser::Exam& e : examParser.getExams()){
         bool run = true;
-        if(e.planned) run = false;
+        if(e.planned) run = false;  // Wenn die Klausur bereits geplant ist, keinen Termin suchen
         int day = 1;
         int min = 0;
+        // Schleife für Terminsuche
         while(run) {
             bool valid = true;
+            // Schleife um Gültigkeit eines Termins am Tag "day" um Zeit "min" bei allen Studenten zu prüfen
             for (StudentParser::Student& s : studentParser.getStudents()) {
                 bool studentHasExamE = false;
                 for (ExamParser::Exam& ex : s.exams){
@@ -43,6 +46,7 @@ int main() {
                 }
                 if (!studentParser.testTime(Time(day, min, e.examLength), s) && studentHasExamE) valid = false;
             }
+            // Wenn der Termin nicht bei allen Studenten gültig ist, nächsten Termin wählen
             if(!valid){
                 min += 15;
                 if(min + e.examLength >= 600){
@@ -50,12 +54,15 @@ int main() {
                     day++;
                 }
                 if(day > 10) day = 0;
+                // Wenn alle 10 Tage durchlaufen wurden ohne dass ein Termin gefunden wurde, Fehler ausgeben
                 if(day == 1 && min == 0){
                     cout << "Error: No valid time found for Exam!" << endl;
                     exit(10);
                 }
+            // Wenn der Termin gültig ist, dann plane den Termin
             } else {
                 e.examTime = Time(day, min, e.examLength);
+                // Aktualisieren der Uhrzeit für alle Klausuren in der Klausurenliste mit gleicher Nummer, Version, Studiengang oder Name
                 for(ExamParser::Exam& ex : examParser.getExams()){
                     if((e.examNumber == ex.examNumber && e.examVersion == ex.examVersion && (e.fieldOfStudy.compare(ex.fieldOfStudy) == 0))
                         || (e.examName == ex.examName)){
@@ -67,6 +74,7 @@ int main() {
                             << ex.examName  << endl;
                     }
                 }
+                // Aktualisieren der Zeit der Klausur für alle Studenten
                 for (StudentParser::Student& s : studentParser.getStudents()) {
                     for(ExamParser::Exam& ex : s.exams){
                         if((e.examNumber == ex.examNumber && e.examVersion == ex.examVersion && (e.fieldOfStudy.compare(ex.fieldOfStudy) == 0))
