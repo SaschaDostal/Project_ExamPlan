@@ -12,13 +12,9 @@ using namespace std;
 
 int main() {
     //example use of roomParser:
-    /*string roomFile = "../InputData/Raumliste.csv";
+    string roomFile = "../InputData/Raumliste.csv";
     RoomParser roomParser(roomFile);
-    vector<RoomParser::Room> rooms = roomParser.getRooms();
-
-    for(RoomParser::Room& r : rooms){
-        cout << r.location << " " << r.seatCount << endl;
-    }*/
+    vector<RoomParser::Room> biggestNRooms = roomParser.getNBiggestRooms(20);
 
     //example use of examParser:
     string examFile = "../InputData/Angebotene_Prüfungen_KL.csv";
