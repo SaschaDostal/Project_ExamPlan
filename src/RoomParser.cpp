@@ -4,6 +4,7 @@
 
 #include "../header/RoomParser.h"
 #include "../header/CSVParser.h"
+#include <algorithm>
 using namespace std;
 
 RoomParser::RoomParser(string fileName) : CSVParser(fileName, separator::semicolon){
@@ -24,4 +25,15 @@ RoomParser::~RoomParser() = default;
 
 vector<RoomParser::Room> RoomParser::getRooms() {
     return rooms;
+}
+
+vector<RoomParser::Room> RoomParser::getNBiggestRooms(int n){
+    vector<RoomParser::Room> r = rooms;
+    std::sort(r.begin(), r.end(),[](RoomParser::Room a, RoomParser::Room b) { return (a.seatCount < b.seatCount);});
+    vector<RoomParser::Room> biggestRooms;
+    for(int i = 0; i < n; i++){
+        r.at(i).examinerNr = i+1;
+        biggestRooms.push_back(r.at(i));
+    }
+    return biggestRooms;
 }

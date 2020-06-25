@@ -6,6 +6,8 @@
 #define ABSCHLUSSAUFGABE_ROOMPARSER_H
 
 #include "CSVParser.h"
+#include "Time.h"
+#include "ExamParser.h"
 
 class RoomParser : CSVParser {
 public:
@@ -13,13 +15,18 @@ public:
         std::string description;
         std::string location; // could also be a struct: e.g. struct location { int building, int floor, int room};
         int seatCount;
+        int examinerNr;
+        std::vector<ExamParser::Exam> exams;
     };
     RoomParser(std::string fileName);
     virtual ~RoomParser();
     std::vector<Room> getRooms();
+    std::vector<Room> getNBiggestRooms(int n);
+    std::vector<Room> getRoomsForNStudents(int n, std::vector<Room> r);
 private:
     std::vector<Room> rooms;
     int roomCount;
+    bool testTime(Time t,  Room r);
 };
 
 #endif //ABSCHLUSSAUFGABE_ROOMPARSER_H

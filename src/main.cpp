@@ -11,9 +11,14 @@
 using namespace std;
 
 int main() {
-    //example use of CSVParser:
-    string fileName = "../InputData/Raumliste.csv";
-    CSVParser csvParser(fileName, CSVParser::separator::comma);
+    //example use of roomParser:
+    /*string roomFile = "../InputData/Raumliste.csv";
+    RoomParser roomParser(roomFile);
+    vector<RoomParser::Room> rooms = roomParser.getRooms();
+
+    for(RoomParser::Room& r : rooms){
+        cout << r.location << " " << r.seatCount << endl;
+    }*/
 
     //example use of examParser:
     string examFile = "../InputData/Angebotene_Prüfungen_KL.csv";
@@ -46,6 +51,11 @@ int main() {
                 }
                 if (!studentParser.testTime(Time(day, min, e.examLength), s) && studentHasExamE) valid = false;
             }
+
+            // TODO Wenn "valid", dann "getRoomsForNStudents(int n, std::vector<Room> r)"
+            // TODO Wenn getRoomsForNStudents() kein Raum zurückgibt -> valid = false;
+            // TODO Wenn getRoomsForNStudents() Räume zurück gibt, Prüfung in Liste room->exams eintragen
+
             // Wenn der Termin nicht bei allen Studenten gültig ist, nächsten Termin wählen
             if(!valid){
                 min += 15;
