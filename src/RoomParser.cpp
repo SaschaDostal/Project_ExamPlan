@@ -47,10 +47,10 @@ vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::ve
     vector<RoomParser::Room> roomsForNStuds;
     int spaceReseved = 0;
     // Liste der Räume durchlaufen
-    for(RoomParser::Room room : r){
+    for(RoomParser::Room& room : r){
         bool free = true;
         // Testen ob Zeit t für alle Prüfungen von raum "room" frei ist
-        for(ExamParser::Exam exam : room.exams){
+        for(ExamParser::Exam& exam : room.exams){
             if(!Time::diff(t, exam.examTime, 60)){
                 free = false;
             }
