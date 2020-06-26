@@ -24,8 +24,6 @@ int main() {
     vector<ExamParser::Exam> allExams = examParser.getExams();
     vector<ExamParser::Exam> notPlannedExams;
 
-    CSVWriter writer(allExams);
-
     string studentFile = "../InputData/Anmeldungen_WS2019_KL.csv";
     StudentParser studentParser(studentFile, allExams);
 
@@ -115,4 +113,6 @@ int main() {
             << ex.examVersion << endl;
     }
     cout << "Number of not plannable exams : " << notPlannedExams.size() << endl;
+
+    CSVWriter writer(allExams);
 }
