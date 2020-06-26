@@ -42,3 +42,28 @@ vector<RoomParser::Room> RoomParser::getNBiggestRooms(int n){
     }
     return biggestRooms;
 }
+
+vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::vector<RoomParser::Room> r) {
+    vector<RoomParser::Room> roomsForNStuds;
+    int spaceReseved = 0;
+    // Liste der Räume durchlaufen
+    for(RoomParser::Room room : r){
+        bool free = true;
+        // Testen ob Zeit t für alle Prüfungen von raum "room" frei ist
+        for(ExamParser::Exam exam : room.exams){
+            if(!Time::diff(t, exam.examTime, 60)){
+                free = false;
+            }
+        }
+        if(free){       // Wenn Raum frei ist, Raum zur Liste roomsForNStuds hinzufügen
+            spaceReseved += room.seatCount;
+            roomsForNStuds.push_back(room);
+        }
+        if(spaceReseved >= n){      // Wenn genug Platz reserviert wurde, Liste mit Räumen zurückgeben
+            return roomsForNStuds;
+        }
+    }
+    //Wenn nicht genug Platz reserviert werden konnte, leere Liste zurückgeben
+    vector<RoomParser::Room> empty;
+    return empty;
+}

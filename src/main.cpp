@@ -52,7 +52,7 @@ int main() {
 
             // TODO Wenn "valid", dann "getRoomsForNStudents(int n, std::vector<Room> r)"
             // TODO Wenn getRoomsForNStudents() kein Raum zurückgibt -> valid = false;
-            // TODO Wenn getRoomsForNStudents() Räume zurück gibt, Prüfung in Liste room->exams eintragen
+            // TODO Wenn getRoomsForNStudents() Räume zurück gibt, Prüfung in Liste room->exams und in String exam->room eintragen
 
             // Wenn der Termin nicht bei allen Studenten gültig ist, nächsten Termin wählen
             if(!valid){
