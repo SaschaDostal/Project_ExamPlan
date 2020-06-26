@@ -29,4 +29,9 @@ bool Time::diff(Time a, Time b, int diff) {
     return false;
 }
 
+std::ostream& operator <<(std::ostream &out, const Time &time){
+    out << time.day << ";" << time.min/60 + 8 << ":" << time.min%60;
+    return out;
+}
+
 Time::~Time() = default;
