@@ -21,14 +21,16 @@ int main() {
     ExamParser examParser(examFile);
 
     //example use of examParser get Function:
-    vector<ExamParser::Exam> exams = examParser.getExams();
+    vector<ExamParser::Exam> allExams = examParser.getExams();
     vector<ExamParser::Exam> notPlannedExams;
 
     string studentFile = "../InputData/Anmeldungen_WS2019_KL.csv";
-    StudentParser studentParser(studentFile, exams);
+    StudentParser studentParser(studentFile, allExams);
+
+    // TODO Sortieren der Prüfungen von "allExams" nach examLength
 
     // Schleife um allen Prüfungen einen Termin zuzuordnen
-    for(ExamParser::Exam& e : examParser.getExams()){
+    for(ExamParser::Exam& e : allExams){
         bool run = true;
         if(e.planned) run = false;  // Wenn die Klausur bereits geplant ist, keinen Termin suchen
         int day = 1;
@@ -77,7 +79,7 @@ int main() {
                     min -= (600 - e.examLength);
                     day++;
                 }
-                if(day > 10) day = 0;
+                if(day > 10) day = 1;
                 // Wenn alle 10 Tage durchlaufen wurden ohne dass ein Termin gefunden wurde, Exam der Liste notPlannedExams hinzufügen
                 if(day == 1 && min == 0){
                     cout << "Error: No valid time found for Exam!" << endl;
