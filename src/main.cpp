@@ -24,6 +24,8 @@ int main() {
     vector<ExamParser::Exam> allExams = examParser.getExams();
     vector<ExamParser::Exam> notPlannedExams;
 
+    CSVWriter writer(allExams);
+
     string studentFile = "../InputData/Anmeldungen_WS2019_KL.csv";
     StudentParser studentParser(studentFile, allExams);
 

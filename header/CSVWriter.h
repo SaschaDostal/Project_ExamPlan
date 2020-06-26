@@ -6,16 +6,19 @@
 #define ABSCHLUSSAUFGABE_CSVWRITER_H
 
 #include <cstdio>
+#include <vector>
+#include "ExamParser.h"
 
 class CSVWriter {
 public:
     enum class separator{ comma, semicolon};
-    CSVWriter();
-    CSVWriter(separator separator);
+    CSVWriter(std::vector<ExamParser::Exam> examsToWrite);
+    CSVWriter(std::vector<ExamParser::Exam> examsToWrite, separator separator);
     virtual ~CSVWriter();
 
 private:
-    FILE *file;
+    void writeExams(std::vector<ExamParser::Exam> exams, separator separator);
+    std::ofstream file;
 };
 
 #endif //ABSCHLUSSAUFGABE_CSVWRITER_H
