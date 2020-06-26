@@ -20,9 +20,29 @@ CSVWriter::~CSVWriter() = default;
 void CSVWriter::writeExams(std::vector<ExamParser::Exam> exams, separator separator) {
     file.open("../OutputData/Geplante_Prüfungen.csv");
     if(file.is_open()){
-
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;räume;tag;uhrzeit" << endl;
+        for (int i=0; i<exams.size(); i++){
+            writeLine(exams[i]);
+        }
+        file.close();
     } else {
         file.close();
         cerr << "error opening file" << endl;
     }
+}
+
+void CSVWriter::writeLine(ExamParser::Exam ex){
+    file    << ex.fieldOfStudy << ";"
+            << ex.distributor << ";"
+            << ex.examVersion << ";"
+            << ex.examNumber << ";"
+            << ex.examName << ";"
+            << ex.examiner << ";"
+            << ex.examLength << ";"
+            << ex.typeOfExam << ";"
+            << ex.examSemester << ";"
+            << (ex.provided ? "J" : "N") << ";"
+            << ex.rooms << ";"
+            << ex.examTime
+            << endl;
 }
