@@ -20,7 +20,7 @@ CSVWriter::~CSVWriter() = default;
 void CSVWriter::writeExams(std::vector<ExamParser::Exam> exams, separator separator) {
     file.open("../OutputData/Geplante_Prüfungen.csv");
     if(file.is_open()){
-        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;räume;tag;uhrzeit" << endl;
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;tag;uhrzeit" << endl;
         for (int i=0; i<exams.size(); i++){
             writeLine(exams[i]);
         }
