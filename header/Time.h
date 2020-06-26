@@ -5,9 +5,11 @@
 #ifndef ABSCHLUSSAUFGABE_TIME_H
 #define ABSCHLUSSAUFGABE_TIME_H
 
+#include <ostream>
+
 class Time {
 public:
-    Time(int day, int min, int duraton);
+    Time(int day, int min, int duration);
     Time();
     // Gibt true zurück, wenn Time a und b mindestens "min" minuten auseinander liegen
     static bool diff(Time a, Time b, int diff);
@@ -18,6 +20,7 @@ public:
     int min;
     // Dauer
     int duration;
+    friend std::ostream& operator <<(std::ostream &out, const Time &time);
     virtual ~Time();
 private:
 };
