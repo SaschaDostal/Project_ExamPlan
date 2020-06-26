@@ -22,7 +22,7 @@ int main() {
 
     //example use of examParser get Function:
     vector<ExamParser::Exam> exams = examParser.getExams();
-    cout << exams.at(23).examName << endl;
+    vector<ExamParser::Exam> notPlannedExams;
 
     string studentFile = "../InputData/Anmeldungen_WS2019_KL.csv";
     StudentParser studentParser(studentFile, exams);
@@ -36,6 +36,7 @@ int main() {
         // Schleife für Terminsuche
         while(run) {
             bool valid = true;
+            int numberOfStud = 0;
             // Schleife um Gültigkeit eines Termins am Tag "day" um Zeit "min" bei allen Studenten zu prüfen
             for (StudentParser::Student& s : studentParser.getStudents()) {
                 bool studentHasExamE = false;
@@ -43,6 +44,7 @@ int main() {
                     if ((e.examNumber == ex.examNumber && e.examVersion == ex.examVersion && (e.fieldOfStudy.compare(ex.fieldOfStudy) == 0))
                         || (e.examName == ex.examName)) {
                         studentHasExamE = true;
+                        numberOfStud++; // Anzahl der Studenten für Klausur erhöhen wenn Student Klausur schreibt
                     }
                 }
                 if (!studentParser.testTime(Time(day, min, e.examLength), s) && studentHasExamE) valid = false;
@@ -60,10 +62,11 @@ int main() {
                     day++;
                 }
                 if(day > 10) day = 0;
-                // Wenn alle 10 Tage durchlaufen wurden ohne dass ein Termin gefunden wurde, Fehler ausgeben
+                // Wenn alle 10 Tage durchlaufen wurden ohne dass ein Termin gefunden wurde, Exam der Liste notPlannedExams hinzufügen
                 if(day == 1 && min == 0){
                     cout << "Error: No valid time found for Exam!" << endl;
-                    exit(10);
+                    notPlannedExams.push_back(e);
+                    run = false;
                 }
             // Wenn der Termin gültig ist, dann plane den Termin
             } else {
@@ -95,13 +98,9 @@ int main() {
         }
     }
 
-
-    /*example use of CSVParser get Function:
-    vector<string> out;
-    out = csvParser.getColumn(2);
-
-    for (const auto& elem : out){
-        cout << elem << " || ";
+    cout << "Not plannable exams: " << endl;
+    for(ExamParser::Exam ex : notPlannedExams){
+        cout << ex.examName << "Field of study: " << ex.fieldOfStudy << " Number: " << ex.examNumber << " Version: "
+            << ex.examVersion << endl;
     }
-     */
 }

@@ -23,6 +23,7 @@ public:
         int examSemester;
         bool provided;
         bool planned;
+        std::string rooms;
     };
     ExamParser(std::string fileName);
     virtual ~ExamParser();
