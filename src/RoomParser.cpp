@@ -43,7 +43,7 @@ vector<RoomParser::Room> RoomParser::getNBiggestRooms(int n){
     return biggestRooms;
 }
 
-vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::vector<RoomParser::Room> r) {
+vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::vector<RoomParser::Room>& r) {
     vector<RoomParser::Room> roomsForNStuds;
     int spaceReseved = 0;
     // Liste der Räume durchlaufen

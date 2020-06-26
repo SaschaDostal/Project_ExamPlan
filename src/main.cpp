@@ -60,8 +60,8 @@ int main() {
                 // Prüfung in Liste room->exams und in String exam->room eintragen
                 } else {
                     e.examTime = Time(day, min, e.examLength);
-                    for(RoomParser::Room r1 : examRooms){
-                        for(RoomParser::Room r2 : biggestNRooms){
+                    for(RoomParser::Room& r1 : examRooms){
+                        for(RoomParser::Room& r2 : biggestNRooms){
                             if(r1.location.compare(r2.location) == 0) r2.exams.push_back(e);
                         }
                         e.rooms.append(" ");
@@ -89,7 +89,7 @@ int main() {
                 cout << "Time scheduled: Day: " << e.examTime.day << " Time: " << std::setfill('0')
                             << setw(2) << (int) e.examTime.min/60 + 8 << ":" << setw(2) << e.examTime.min % 60
                             << ", duration " << e.examTime.duration << " Exam: " << e.examNumber << " "
-                            << e.examName  << " Room(s):" << e.rooms << endl;
+                            << e.examName  << ", Room(s):" << e.rooms << endl;
 
                 // Aktualisieren der Zeit der Klausur für alle Studenten
                 for (StudentParser::Student& s : studentParser.getStudents()) {
@@ -110,4 +110,5 @@ int main() {
         cout << ex.examName << "Field of study: " << ex.fieldOfStudy << " Number: " << ex.examNumber << " Version: "
             << ex.examVersion << endl;
     }
+    cout << "Number of not plannable exams : " << notPlannedExams.size() << endl;
 }

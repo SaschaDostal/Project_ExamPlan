@@ -22,7 +22,7 @@ public:
     virtual ~RoomParser();
     std::vector<Room> getRooms();
     std::vector<Room> getNBiggestRooms(int n);
-    static std::vector<Room> getRoomsForNStudents(int n, Time t, std::vector<RoomParser::Room> r);
+    static std::vector<Room> getRoomsForNStudents(int n, Time t, std::vector<RoomParser::Room>& r);
 private:
     std::vector<Room> rooms;
     int roomCount;
