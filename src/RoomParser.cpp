@@ -10,7 +10,7 @@ using namespace std;
 
 RoomParser::RoomParser(string fileName) : CSVParser(fileName, separator::comma){
     tableData tmp = getData();
-    for(int i=1; i<tmp.size(); i++){
+    for(int i=0; i<tmp.size(); i++){
         Room room = {};
         vector<string> roomData = getRow(i);
         {
