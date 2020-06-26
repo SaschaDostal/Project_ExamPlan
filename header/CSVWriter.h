@@ -17,6 +17,7 @@ public:
     virtual ~CSVWriter();
 
 private:
+    void writeLine(ExamParser::Exam ex);
     void writeExams(std::vector<ExamParser::Exam> exams, separator separator);
     std::ofstream file;
 };
