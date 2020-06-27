@@ -30,7 +30,9 @@ bool Time::diff(Time a, Time b, int diff) {
 }
 
 std::ostream& operator <<(std::ostream &out, const Time &time){
-    out << time.day << ";" << time.min/60 + 8 << ":" << time.min%60;
+    char buf[5] = {0};
+    sprintf(buf,"%02d:%02d", time.min/60 + 8, time.min%60);
+    out << time.day << ";" << buf;
     return out;
 }
 
