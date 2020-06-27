@@ -7,6 +7,7 @@
 
 #include "CSVParser.h"
 #include "Time.h"
+#include <mutex>
 
 class ExamParser : CSVParser {
 public:
@@ -24,13 +25,18 @@ public:
         bool provided;
         bool planned;
         std::string rooms;
+        //std::string getKey() { return fieldOfStudy.append(std::to_string(examVersion)).append(std::to_string(examNumber));}
     };
     ExamParser(std::string fileName);
     virtual ~ExamParser();
     std::vector<Exam>& getExams();
 private:
     std::vector<Exam> exams;
-    int examCount;
+};
+
+class ExamVector : public std::vector<ExamParser::Exam>{
+public:
+    std::mutex examMutex;
 };
 
 #endif //ABSCHLUSSAUFGABE_EXAMPARSER_H

@@ -50,7 +50,7 @@ StudentParser::StudentParser(string fileName, std::vector<ExamParser::Exam> allE
                     for(ExamParser::Exam& e : allExams){
                         if((stoi(studentData.at(3)) == e.examNumber) && (stoi(studentData.at(2)) == e.examVersion)
                             && (e.fieldOfStudy.compare(studentData.at(1)) == 0)){
-                            stud.exams.push_back(e);
+                            student.exams.push_back(e);
                             examExists = true;
                         }
                     }
@@ -72,7 +72,7 @@ vector<StudentParser::Student> &StudentParser::getStudents() {
 }
 
 bool StudentParser::testTime(Time t, StudentParser::Student s){
-    for(ExamParser::Exam& e : s.exams){
+    for(const auto& e : s.exams){
         if(!Time::diff(t, e.examTime, 240)){
             return false;
         }

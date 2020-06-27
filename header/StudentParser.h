@@ -5,6 +5,7 @@
 #ifndef ABSCHLUSSAUFGABE_STUDENTPARSER_H
 #define ABSCHLUSSAUFGABE_STUDENTPARSER_H
 
+#include <unordered_map>
 #include "CSVParser.h"
 #include "ExamParser.h"
 #include "Time.h"
@@ -19,9 +20,15 @@ public:
     StudentParser(std::string fileName,  std::vector<ExamParser::Exam> allExams);
     virtual ~StudentParser();
     std::vector<Student>& getStudents();
-    bool testTime(Time t,  StudentParser::Student s);
+    static bool testTime(Time t,  StudentParser::Student s);
 private:
     std::vector<Student> students;
-    int studentCount;
 };
+
+class StudentVector : public std::vector<StudentParser::Student>{
+public:
+    StudentVector(std::vector<StudentParser::Student> stud) : std::vector<StudentParser::Student>(stud){};
+    std::mutex studentMutex;
+};
+
 #endif //ABSCHLUSSAUFGABE_STUDENTPARSER_H
