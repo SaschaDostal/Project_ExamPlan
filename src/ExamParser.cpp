@@ -25,12 +25,12 @@ ExamParser::ExamParser(string fileName) : CSVParser(fileName, separator::semicol
             exam.examTime.duration = exam.examLength;
             exam.planned = false;
         }
-        exams.push_back(exam);
+        exams.insert({exam.getKey(), exam});
     }
 }
 
 ExamParser::~ExamParser() = default;
 
-vector<ExamParser::Exam>& ExamParser::getExams() {
+unordered_map<string, ExamParser::Exam>& ExamParser::getExams() {
     return exams;
 }
