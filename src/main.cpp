@@ -43,7 +43,7 @@ int main() {
             for (StudentParser::Student& s : studentParser.getStudents()) {
                 bool studentHasExamE = false;
                 for (ExamParser::Exam& ex : s.exams){
-                    if ((e.examNumber == ex.examNumber && e.examVersion == ex.examVersion && (e.fieldOfStudy.compare(ex.fieldOfStudy) == 0))
+                    if ((e.examNumber == ex.examNumber && e.examVersion == ex.examVersion && (e.fieldOfStudy == ex.fieldOfStudy))
                         || (e.examName == ex.examName)) {
                         studentHasExamE = true;
                         numberOfStud++; // Anzahl der Studenten für Klausur erhöhen wenn Student Klausur schreibt
@@ -56,7 +56,7 @@ int main() {
             if(valid){
                 vector<RoomParser::Room> examRooms = RoomParser::getRoomsForNStudents(numberOfStud, Time(day, min, e.examLength), biggestNRooms);
                 // Wenn getRoomsForNStudents() kein Raum zurückgibt -> valid = false;
-                if(examRooms.size() < 1){
+                if(examRooms.empty()){
                     valid = false;
                 // Wenn getRoomsForNStudents() Räume zurück gibt, dann plane Termin in Prüfung
                 // Prüfung in Liste room->exams und in String exam->room eintragen
@@ -64,7 +64,7 @@ int main() {
                     e.examTime = Time(day, min, e.examLength);
                     for(RoomParser::Room& r1 : examRooms){
                         for(RoomParser::Room& r2 : biggestNRooms){
-                            if(r1.location.compare(r2.location) == 0) r2.exams.push_back(e);
+                            if(r1.location == r2.location) r2.exams.push_back(e);
                         }
                         e.rooms.append(" ");
                         e.rooms.append(r1.location);
@@ -108,7 +108,7 @@ int main() {
     }
 
     cout << "Not plannable exams: " << endl;
-    for(ExamParser::Exam ex : notPlannedExams){
+    for(const ExamParser::Exam& ex : notPlannedExams){
         cout << ex.examName << "Field of study: " << ex.fieldOfStudy << " Number: " << ex.examNumber << " Version: "
             << ex.examVersion << endl;
     }
