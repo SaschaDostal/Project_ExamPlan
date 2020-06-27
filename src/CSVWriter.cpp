@@ -7,22 +7,22 @@
 
 using namespace std;
 
-CSVWriter::CSVWriter(vector<ExamParser::Exam> examsToWrite) {
+CSVWriter::CSVWriter(unordered_map<string, ExamParser::Exam> examsToWrite) {
     writeExams(examsToWrite, separator::semicolon);
 }
 
-CSVWriter::CSVWriter(vector<ExamParser::Exam> examsToWrite, separator separator) {
+CSVWriter::CSVWriter(unordered_map<string, ExamParser::Exam> examsToWrite, separator separator) {
     writeExams(examsToWrite, separator);
 }
 
 CSVWriter::~CSVWriter() = default;
 
-void CSVWriter::writeExams(std::vector<ExamParser::Exam> exams, separator separator) {
+void CSVWriter::writeExams(unordered_map<string, ExamParser::Exam> exams, separator separator) {
     file.open("../OutputData/Geplante_Prüfungen.csv");
     if(file.is_open()){
         file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;tag;uhrzeit" << endl;
-        for (int i=0; i<exams.size(); i++){
-            writeLine(exams[i]);
+        for (auto& exam : exams){
+            writeLine(exam.second);
         }
         file.close();
     } else {
