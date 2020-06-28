@@ -26,6 +26,8 @@ public:
         bool provided;
         bool planned;
         std::string rooms;
+        int roomCapacity;
+        int numStudents;
         std::string getKey() {return fieldOfStudy + std::to_string(examVersion) + std::to_string(examNumber);}
     };
     ExamParser(std::string fileName);
