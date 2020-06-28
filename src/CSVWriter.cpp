@@ -7,20 +7,20 @@
 
 using namespace std;
 
-CSVWriter::CSVWriter(unordered_map<string, ExamParser::Exam> examsToWrite) {
+CSVWriter::CSVWriter(std::vector<std::pair<std::string, ExamParser::Exam>> examsToWrite) {
     writeExams(examsToWrite, separator::semicolon);
 }
 
-CSVWriter::CSVWriter(unordered_map<string, ExamParser::Exam> examsToWrite, separator separator) {
+CSVWriter::CSVWriter(std::vector<std::pair<std::string, ExamParser::Exam>> examsToWrite, separator separator) {
     writeExams(examsToWrite, separator);
 }
 
 CSVWriter::~CSVWriter() = default;
 
-void CSVWriter::writeExams(unordered_map<string, ExamParser::Exam> exams, separator separator) {
+void CSVWriter::writeExams(std::vector<std::pair<std::string, ExamParser::Exam>> exams, separator separator) {
     file.open("../OutputData/Geplante_Prüfungen.csv");
     if(file.is_open()){
-        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;tag;uhrzeit" << endl;
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;rkapazit\xE4t;anzstudenten;tag;uhrzeit" << endl;
         for (auto& exam : exams){
             if(exam.second.planned) writeLine(exam.second);
         }
@@ -31,7 +31,7 @@ void CSVWriter::writeExams(unordered_map<string, ExamParser::Exam> exams, separa
     }
     file.open("../OutputData/Ungeplante_Prüfungen.csv");
     if(file.is_open()){
-        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;tag;uhrzeit" << endl;
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;rkapazit\xE4t;anzstudenten;tag;uhrzeit" << endl;
         for (auto& exam : exams){
             if(!exam.second.planned) writeLine(exam.second);
         }
