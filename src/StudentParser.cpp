@@ -46,28 +46,8 @@ StudentParser::StudentParser(string fileName, std::unordered_map<std::string, Ex
         if (studExists) {
                 students.at(fieldOfStudy).at(matrikelNumber).insert({key, exam});
         } else {
-<<<<<<< HEAD
-            for(Student& stud : students){
-                if(stoi(studentData.at(0)) == stud.matrikelNumber){
-                    bool examExists = false;
-                    for(ExamParser::Exam& e : allExams){
-                        if((stoi(studentData.at(3)) == e.examNumber) && (stoi(studentData.at(2)) == e.examVersion)
-                            && (e.fieldOfStudy.compare(studentData.at(1)) == 0)){
-                            student.exams.push_back(e);
-                            examExists = true;
-                        }
-                    }
-                    // Wenn dazugehörige Klausur nicht existiert gebe aus, dass Anmeldung ignoriert wurde
-                    if(!examExists){
-                        cout << "Registration ignored: Exam with pnumber " << stoi(studentData.at(3)) << ", version " << studentData.at(2)
-                        << " stg " << studentData.at(1) << " does not exist." << endl;
-                    }
-                }
-            }
-=======
             // Füge dem Student die Prüfung zu der die Anmeldung gehört hinzu
             students.at(fieldOfStudy).insert({matrikelNumber, {pair<string, ExamParser::Exam>(key, exam)}});
->>>>>>> felix1
         }
     }
 }
@@ -78,21 +58,11 @@ unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>
     return students;
 }
 
-<<<<<<< HEAD
-bool StudentParser::testTime(Time t, StudentParser::Student s){
-    for(const auto& e : s.exams){
-        if(!Time::diff(t, e.examTime, 240)){
-=======
 bool StudentParser::testTime(Time t, string fieldOfStudy, int matrikelNumber){
     for(auto& element : students.at(fieldOfStudy).at(matrikelNumber)){
         if(!Time::diff(t, element.second.examTime, 240)){
->>>>>>> felix1
             return false;
         }
     }
     return true;
-}
-
-void StudentParser::removeExam(std::string fieldOfStudy, int matrikelNumber, std::string key) {
-    students.at(fieldOfStudy).at(matrikelNumber).erase(key);
 }
