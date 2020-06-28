@@ -12,7 +12,7 @@
 
 class StudentParser : CSVParser {
 public:
-    StudentParser(std::string fileName);
+    StudentParser(std::string fileName, std::unordered_map<std::string, ExamParser::Exam>);
     virtual ~StudentParser();
     std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>>
     getStudents();
