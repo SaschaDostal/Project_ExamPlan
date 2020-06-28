@@ -16,15 +16,8 @@ public:
     virtual ~StudentParser();
     std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>> getStudents();
     bool testTime(Time t,  std::string fieldOfStudy, int matrikelNumber);
-    void removeExam(std::string fieldOfStudy, int matrikelNumber, std::string key);
 private:
     std::unordered_map<std::string,std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>> students;
-};
-
-class StudentVector : public std::vector<StudentParser::Student>{
-public:
-    StudentVector(std::vector<StudentParser::Student> stud) : std::vector<StudentParser::Student>(stud){};
-    std::mutex studentMutex;
 };
 
 #endif //ABSCHLUSSAUFGABE_STUDENTPARSER_H
