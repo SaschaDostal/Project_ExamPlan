@@ -7,8 +7,6 @@
 #include "../header/RoomParser.h"
 
 #include <string>
-#include <thread>
-#include <mutex>
 
 using namespace std;
 
@@ -131,25 +129,4 @@ int main() {
               [](const ExamParser::Exam& a, const ExamParser::Exam& b)
                 { return (a.examTime.day == b.examTime.day)? (a.examTime.min > b.examTime.min) : (a.examTime.day > b.examTime.day);});*/
     CSVWriter writer(allExams);
-}
-
-vector<std::vector<ExamParser::Exam>> splitExams(const std::vector<ExamParser::Exam>& vec, size_t n){
-    std::vector<std::vector<ExamParser::Exam>> outVec;
-
-    size_t length = vec.size() / n;
-    size_t remain = vec.size() % n;
-
-    size_t begin = 0;
-    size_t end = 0;
-
-    for (size_t i = 0; i < std::min(n, vec.size()); ++i)
-    {
-        end += (remain > 0) ? (length + (remain-- != 0)) : length;
-
-        outVec.emplace_back(vec.begin() + begin, vec.begin() + end);
-
-        begin = end;
-    }
-
-    return outVec;
 }
