@@ -33,7 +33,7 @@ vector<RoomParser::Room> RoomParser::getNBiggestRooms(int n){
     std::sort(r.begin(), r.end(),[](RoomParser::Room a, RoomParser::Room b) { return (a.seatCount > b.seatCount);});
     vector<RoomParser::Room> biggestRooms;
     if(n > r.size()){
-        cout << "Error: Asked for too many rooms" << endl;
+        cerr << "Error: Asked for too many rooms" << endl;
         return biggestRooms;
     }
     for(int i = 0; i < n; i++){
