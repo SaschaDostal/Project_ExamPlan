@@ -20,7 +20,7 @@ CSVWriter::~CSVWriter() = default;
 void CSVWriter::writeExams(std::vector<std::pair<std::string, ExamParser::Exam>> exams, separator separator) {
     file.open("../OutputData/Geplante_Prüfungen.csv");
     if(file.is_open()){
-        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;rkapazit\xE4t;anzstudenten;tag;uhrzeit" << endl;
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;rkapazit\xE4t;anzstudenten;restplatz;tag;uhrzeit;mtknr" << endl;
         for (auto& exam : exams){
             if(exam.second.planned) writeLine(exam.second);
         }
@@ -31,7 +31,7 @@ void CSVWriter::writeExams(std::vector<std::pair<std::string, ExamParser::Exam>>
     }
     file.open("../OutputData/Ungeplante_Prüfungen.csv");
     if(file.is_open()){
-        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;rkapazit\xE4t;anzstudenten;tag;uhrzeit" << endl;
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;rkapazit\xE4t;anzstudenten;restplatz;tag;uhrzeit;mtknr" << endl;
         for (auto& exam : exams){
             if(!exam.second.planned) writeLine(exam.second);
         }
@@ -56,6 +56,8 @@ void CSVWriter::writeLine(ExamParser::Exam ex){
             << ex.rooms << ";"
             << ex.roomCapacity << ";"
             << ex.numStudents << ";"
-            << ex.examTime
+            << ex.freeSpace << ";"
+            << ex.examTime << ";"
+            << ex.mtknrs
             << endl;
 }
