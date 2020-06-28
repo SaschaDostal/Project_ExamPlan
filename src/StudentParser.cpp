@@ -42,7 +42,9 @@ StudentParser::StudentParser(string fileName, std::unordered_map<std::string, Ex
 
         // Wenn Student existiert, suche Student in Student-Vector und füge Prüfung hinzu
         if (studExists) {
+            if(!students.at(fieldOfStudy).at(matrikelNumber).count(key)) {
                 students.at(fieldOfStudy).at(matrikelNumber).insert({key, exam});
+            }
         } else {
             // Füge dem Student die Prüfung zu der die Anmeldung gehört hinzu
             students.at(fieldOfStudy).insert({matrikelNumber, {pair<string, ExamParser::Exam>(key, exam)}});
@@ -52,13 +54,13 @@ StudentParser::StudentParser(string fileName, std::unordered_map<std::string, Ex
 
 StudentParser::~StudentParser() = default;
 
-unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>> StudentParser::getStudents() {
+unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>>& StudentParser::getStudents(){
     return students;
 }
 
-bool StudentParser::testTime(Time t, string fieldOfStudy, int matrikelNumber){
-    for(auto& element : students.at(fieldOfStudy).at(matrikelNumber)){
-        if(!Time::diff(t, element.second.examTime, 240)){
+bool StudentParser::testTime(const Time& t, const pair<int, unordered_map<string, ExamParser::Exam>>& student){
+    for(auto& e : student.second) {
+        if (!Time::diff(t, e.second.examTime, 240)) {
             return false;
         }
     }
