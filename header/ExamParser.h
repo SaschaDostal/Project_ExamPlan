@@ -5,6 +5,7 @@
 #ifndef ABSCHLUSSAUFGABE_EXAMPARSER_H
 #define ABSCHLUSSAUFGABE_EXAMPARSER_H
 
+#include <unordered_map>
 #include "CSVParser.h"
 #include "Time.h"
 #include <mutex>
@@ -25,18 +26,13 @@ public:
         bool provided;
         bool planned;
         std::string rooms;
-        //std::string getKey() { return fieldOfStudy.append(std::to_string(examVersion)).append(std::to_string(examNumber));}
+        std::string getKey() {return fieldOfStudy + std::to_string(examVersion) + std::to_string(examNumber);}
     };
     ExamParser(std::string fileName);
     virtual ~ExamParser();
-    std::vector<Exam>& getExams();
+    std::unordered_map<std::string, Exam>& getExams();
 private:
-    std::vector<Exam> exams;
-};
-
-class ExamVector : public std::vector<ExamParser::Exam>{
-public:
-    std::mutex examMutex;
+    std::unordered_map<std::string, Exam> exams;
 };
 
 #endif //ABSCHLUSSAUFGABE_EXAMPARSER_H

@@ -12,17 +12,13 @@
 
 class StudentParser : CSVParser {
 public:
-    struct Student {
-        int matrikelNumber;
-        std::string fieldOfStudy;
-        std::vector<ExamParser::Exam> exams;
-    };
-    StudentParser(std::string fileName,  std::vector<ExamParser::Exam> allExams);
+    StudentParser(std::string fileName, std::unordered_map<std::string, ExamParser::Exam>);
     virtual ~StudentParser();
-    std::vector<Student>& getStudents();
-    static bool testTime(Time t,  StudentParser::Student s);
+    std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>> getStudents();
+    bool testTime(Time t,  std::string fieldOfStudy, int matrikelNumber);
+    void removeExam(std::string fieldOfStudy, int matrikelNumber, std::string key);
 private:
-    std::vector<Student> students;
+    std::unordered_map<std::string,std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>> students;
 };
 
 class StudentVector : public std::vector<StudentParser::Student>{
