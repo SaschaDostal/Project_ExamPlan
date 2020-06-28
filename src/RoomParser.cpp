@@ -43,23 +43,39 @@ vector<RoomParser::Room> RoomParser::getNBiggestRooms(int n){
     return biggestRooms;
 }
 
-vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::vector<RoomParser::Room>& r) {
+vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::vector<RoomParser::Room>* r, ExamParser::Exam *lastExam) {
     vector<RoomParser::Room> roomsForNStuds;
     int spaceReseved = 0;
     // Liste der Räume durchlaufen
-    for(RoomParser::Room& room : r){
+    for(RoomParser::Room& room : *r){
         bool free = true;
+        ExamParser::Exam *examWithFreeSpace = nullptr;
+        vector<ExamParser::Exam> *examsptr = &room.exams;
         // Testen ob Zeit t für alle Prüfungen von raum "room" frei ist
-        for(ExamParser::Exam& exam : room.exams){
+        for(ExamParser::Exam& exam : *examsptr){
             if(!Time::diff(t, exam.examTime, 60)){
                 free = false;
+                if(exam.freeSpace > 0){
+                    examWithFreeSpace = &exam;
+                    break;
+                }
             }
+        }
+        if((examWithFreeSpace != nullptr) /*&& (examWithFreeSpace != lastExam)*/){
+            spaceReseved += examWithFreeSpace->freeSpace;
+            examWithFreeSpace->freeSpace = 0;
+            roomsForNStuds.push_back(room);
         }
         if(free){       // Wenn Raum frei ist, Raum zur Liste roomsForNStuds hinzufügen
             spaceReseved += room.seatCount;
             roomsForNStuds.push_back(room);
         }
         if(spaceReseved >= n){      // Wenn genug Platz reserviert wurde, Liste mit Räumen zurückgeben
+            if(examWithFreeSpace == nullptr) {
+                lastExam->freeSpace = spaceReseved - n;
+            } else {
+                lastExam->freeSpace = 0;
+            }
             return roomsForNStuds;
         }
     }
