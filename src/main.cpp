@@ -32,6 +32,28 @@ int main() {
     unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>> students = studentParser.getStudents();
 
     // TODO Sortieren der Prüfungen von "allExams" nach examLength
+    int rows = allExams.size();
+    bool isSorted = false ;
+    while (true) {
+        int u = 0;
+        if(!isSorted) {
+            isSorted = true;
+            for (auto j = next(allExams.begin(),1) ; j != prev(allExams.end(),2); ++j) {
+
+                int laenge = (j)->second.examLength;
+                int laenge2 = ((next(j,1)))->second.examLength;
+
+                if (laenge2 > laenge) {
+                    vector<ExamParser::Exam> temp;
+                    temp.push_back(((next(j,1)))->second);
+                    ((next(j,1)))->second = (j)->second;
+                    (j)->second = temp[0];
+                    isSorted = false;
+                }
+            }
+
+        } else { break;}
+    }
 
     time_t before = time(nullptr);
 
@@ -131,6 +153,7 @@ int main() {
               [](const ExamParser::Exam& a, const ExamParser::Exam& b)
                 { return (a.examTime.day == b.examTime.day)? (a.examTime.min > b.examTime.min) : (a.examTime.day > b.examTime.day);});*/
     CSVWriter writer(allExams);
+    cout << difftime(before, time(nullptr));
 }
 
 vector<std::vector<ExamParser::Exam>> splitExams(const std::vector<ExamParser::Exam>& vec, size_t n){
