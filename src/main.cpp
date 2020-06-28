@@ -7,7 +7,7 @@
 #include "../header/RoomParser.h"
 
 #include <string>
-#include <stdio.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -150,10 +150,11 @@ int main() {
     cout << "Number of exams without students: " << examsWithoutStudents << endl;
     
     // TODO Sortieren der Prüfungen von "allExams" nach examTime (wie unten nur jetzt eben mit der unordered_map)
-    /*std::sort(allExams.begin(), allExams.end(),
-              [](const ExamParser::Exam& a, const ExamParser::Exam& b)
-                { return (a.examTime.day == b.examTime.day)? (a.examTime.min > b.examTime.min) : (a.examTime.day > b.examTime.day);});*/
-    CSVWriter writer(allExams);
+    vector<pair<string, ExamParser::Exam>> elems(allExams.begin(), allExams.end());
+    sort(elems.begin(), elems.end(),
+              [](const pair<string, ExamParser::Exam>& a, const pair<string,ExamParser::Exam>& b)
+                { return (a.second.examTime.day == b.second.examTime.day)? (a.second.examTime.min < b.second.examTime.min) : (a.second.examTime.day < b.second.examTime.day);});
+    CSVWriter writer(elems);
 
     printf("%f", difftime(before, time(nullptr)));
 }
