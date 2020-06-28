@@ -12,13 +12,13 @@
 class CSVWriter {
 public:
     enum class separator{ comma, semicolon};
-    CSVWriter(std::unordered_map<std::string, ExamParser::Exam> examsToWrite);
-    CSVWriter(std::unordered_map<std::string, ExamParser::Exam> examsToWrite, separator separator);
+    CSVWriter(std::vector<std::pair<std::string, ExamParser::Exam>> examsToWrite);
+    CSVWriter(std::vector<std::pair<std::string, ExamParser::Exam>> examsToWrite, separator separator);
     virtual ~CSVWriter();
 
 private:
     void writeLine(ExamParser::Exam ex);
-    void writeExams(std::unordered_map<std::string, ExamParser::Exam> exams, separator separator);
+    void writeExams(std::vector<std::pair<std::string, ExamParser::Exam>> exams, separator separator);
     std::ofstream file;
 };
 
