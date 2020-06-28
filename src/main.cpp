@@ -50,7 +50,7 @@ int main() {
             vector<int> studentsParticipating;
             for (auto& students_ : students.at(e.second.fieldOfStudy)) {
                 // Wenn Student die Prüfung schreibt
-                if (students_.second.contains(e.first)) {
+                if (students_.second.count(e.first)) {
                     studentsParticipating.push_back(students_.first);
                     // Wenn der Student keine Zeit hat -> ungütiger Termin
                     if (!studentParser.testTime(Time(day, min, e.second.examLength), e.second.fieldOfStudy, students_.first)) valid = false;
@@ -93,6 +93,7 @@ int main() {
                     students.at(e.second.fieldOfStudy).at(matrikelNumber).at(e.second.getKey()).examTime = e.second.examTime;
                     students.at(e.second.fieldOfStudy).at(matrikelNumber).at(e.second.getKey()).planned = true;
                 }
+                e.second.planned = true;
                 run = false;
             }
             // Wenn der Termin nicht bei allen Studenten gültig ist, nächsten Termin wählen
