@@ -7,6 +7,7 @@
 #include "../header/RoomParser.h"
 
 #include <string>
+#include <stdio.h>
 
 using namespace std;
 
@@ -30,7 +31,7 @@ int main() {
     unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>> students = studentParser.getStudents();
 
     // TODO Sortieren der Prüfungen von "allExams" nach examLength
-    int rows = allExams.size();
+    /*int rows = allExams.size();
     bool isSorted = false ;
     while (true) {
         int u = 0;
@@ -51,7 +52,7 @@ int main() {
             }
 
         } else { break;}
-    }
+    }*/
 
     time_t before = time(nullptr);
 
@@ -59,11 +60,11 @@ int main() {
     int examsWithoutStudents = 0;
     for(auto& e : allExams) {
         bool run = true;
+        if(e.second.examLength == 0) run = false;
         if (e.second.planned) run = false;  // Wenn die Klausur bereits geplant ist, keinen Termin suchen
         int day = 1;
         int min = 0;
         // Schleife für Terminsuche
-        loop:
         while (run) {
             bool valid = true;
             // Schleife um Gültigkeit eines Termins am Tag "day" um Zeit "min" bei allen Studenten des Studiengangs zu prüfen
@@ -79,7 +80,7 @@ int main() {
             if(studentsParticipating.empty()) {
                 examsWithoutStudents++;
                 run = false;
-                goto loop;
+                break;
             }
             // Wenn "valid", dann getRoomsForNStudents()
             if (valid) {
@@ -99,6 +100,7 @@ int main() {
                         }
                         e.second.rooms.append(" ");
                         e.second.rooms.append(r1.location);
+                        e.second.roomCapacity += r1.seatCount;
                     }
                 }
 
@@ -114,6 +116,7 @@ int main() {
                     students.at(e.second.fieldOfStudy).at(matrikelNumber).at(e.second.getKey()).planned = true;
                 }
                 e.second.planned = true;
+                e.second.numStudents = studentsParticipating.size();
                 run = false;
             }
             // Wenn der Termin nicht bei allen Studenten gültig ist, nächsten Termin wählen
@@ -152,5 +155,5 @@ int main() {
                 { return (a.examTime.day == b.examTime.day)? (a.examTime.min > b.examTime.min) : (a.examTime.day > b.examTime.day);});*/
     CSVWriter writer(allExams);
 
-    cout << difftime(before, time(nullptr));
+    printf("%f", difftime(before, time(nullptr)));
 }
