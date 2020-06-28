@@ -15,8 +15,8 @@ class StudentParser : CSVParser {
 public:
     StudentParser(std::string fileName, std::unordered_map<std::string, ExamParser::Exam>);
     virtual ~StudentParser();
-    std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>> getStudents();
-    bool testTime(Time t,  std::string fieldOfStudy, int matrikelNumber);
+    std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>>& getStudents();
+    static bool testTime(const Time& t, const std::pair<int, std::unordered_map<std::string, ExamParser::Exam>>& student);
 private:
     std::unordered_map<std::string,std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>> students;
 
