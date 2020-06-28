@@ -12,7 +12,6 @@
 
 using namespace std;
 
-void planADay(int day, StudentVector& students, vector<RoomParser::Room>& biggestNRooms, vector<ExamParser::Exam>& allExams, ExamVector& notPlannedExams);
 vector<std::vector<ExamParser::Exam>> splitExams(const std::vector<ExamParser::Exam>& vec, size_t n);
 
 int main() {
@@ -25,9 +24,6 @@ int main() {
     string examFile = "../InputData/Angebotene_Prüfungen_KL.csv";
     ExamParser examParser(examFile);
     unordered_map<string, ExamParser::Exam> allExams = examParser.getExams();
-
-    //example use of examParser get Function:
-    vector<ExamParser::Exam> allExams = examParser.getExams();
     vector<ExamParser::Exam> notPlannedExams;
 
     string studentFile = "../InputData/Anmeldungen_WS2019_KL.csv";
@@ -118,7 +114,6 @@ int main() {
         }
     }
 
-    cerr << "Day " << day << " took: " << difftime(time(nullptr), before) << " seconds" << endl;
     cout << "Number of not plannable exams : " << notPlannedExams.size() << endl;
     if (!notPlannedExams.empty()){
         cout << "Not plannable exams: " << endl;
@@ -150,7 +145,7 @@ vector<std::vector<ExamParser::Exam>> splitExams(const std::vector<ExamParser::E
     {
         end += (remain > 0) ? (length + (remain-- != 0)) : length;
 
-        outVec.push_back(std::vector<ExamParser::Exam>(vec.begin() + begin, vec.begin() + end));
+        outVec.emplace_back(vec.begin() + begin, vec.begin() + end);
 
         begin = end;
     }
