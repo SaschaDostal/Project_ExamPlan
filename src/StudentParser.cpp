@@ -6,7 +6,7 @@
 #include "../header/StudentParser.h"
 using namespace std;
 
-StudentParser::StudentParser(string fileName) : CSVParser(fileName, separator::semicolon) {
+StudentParser::StudentParser(string fileName, std::unordered_map<std::string, ExamParser::Exam> providedExams) : CSVParser(fileName, separator::semicolon) {
     tableData tmp = getData();
 
     vector<string> fieldsOfStudy = getColumn(1);
@@ -29,17 +29,24 @@ StudentParser::StudentParser(string fileName) : CSVParser(fileName, separator::s
         string fieldOfStudy = studentData.at(1);
 
         // Test ob Student bereits existiert
-        bool studExists = (students.at(fieldOfStudy).count(matrikelNumber));
+        bool studExists = (students.at(fieldOfStudy).contains(matrikelNumber));
+
+        // Prüfung die angemeldet wird anlegen
+        ExamParser::Exam exam = ExamParser::Exam{studentData.at(1), "", stoi(studentData.at(2)), stoi(studentData.at(3))};
+        string key = exam.getKey();
+        // Wenn die Prüfung nicht  existiert -> Fehler, Prüfung ignorieren
+        if (!providedExams.contains(key)) {
+            cerr << "Registration ignored: Exam with pnumber " << stoi(studentData.at(3)) << ", version "
+                 << studentData.at(2)
+                 << " stg " << studentData.at(1) << " does not exist." << endl;
+            continue;
+        }
 
         // Wenn Student existiert, suche Student in Student-Vector und füge Prüfung hinzu
         if (studExists) {
-            ExamParser::Exam exam = ExamParser::Exam{studentData.at(1), "", stoi(studentData.at(2)), stoi(studentData.at(3))};
-            string key = exam.fieldOfStudy.append(to_string(exam.examVersion)).append(to_string(exam.examNumber));
-            students.at(fieldOfStudy).at(matrikelNumber).insert({key, exam});
+                students.at(fieldOfStudy).at(matrikelNumber).insert({key, exam});
         } else {
             // Füge dem Student die Prüfung zu der die Anmeldung gehört hinzu
-            ExamParser::Exam exam = ExamParser::Exam{studentData.at(1), "", stoi(studentData.at(2)), stoi(studentData.at(3))};
-            string key = exam.fieldOfStudy.append(to_string(exam.examVersion)).append(to_string(exam.examNumber));
             students.at(fieldOfStudy).insert({matrikelNumber, {pair<string, ExamParser::Exam>(key, exam)}});
         }
     }
