@@ -29,6 +29,17 @@ void CSVWriter::writeExams(unordered_map<string, ExamParser::Exam> exams, separa
         file.close();
         cerr << "error opening file" << endl;
     }
+    file.open("../OutputData/Ungeplante_Prüfungen.csv");
+    if(file.is_open()){
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;tag;uhrzeit" << endl;
+        for (auto& exam : exams){
+            if(!exam.second.planned) writeLine(exam.second);
+        }
+        file.close();
+    } else {
+        file.close();
+        cerr << "error opening file" << endl;
+    }
 }
 
 void CSVWriter::writeLine(ExamParser::Exam ex){
@@ -43,6 +54,8 @@ void CSVWriter::writeLine(ExamParser::Exam ex){
             << ex.examSemester << ";"
             << (ex.provided ? "J" : "N") << ";"
             << ex.rooms << ";"
+            << ex.roomCapacity << ";"
+            << ex.numStudents << ";"
             << ex.examTime
             << endl;
 }
