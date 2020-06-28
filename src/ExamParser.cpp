@@ -24,6 +24,7 @@ ExamParser::ExamParser(string fileName) : CSVParser(fileName, separator::semicol
             exam.provided = (examData.at(12) == "J");
             exam.examTime.duration = exam.examLength;
             exam.roomCapacity = 0;
+            exam.freeSpace = 0;
             exam.planned = false;
         }
         exams.insert({exam.getKey(), exam});
