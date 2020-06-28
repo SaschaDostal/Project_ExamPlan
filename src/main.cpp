@@ -88,6 +88,7 @@ int main() {
                 }
             // Wenn der Termin gültig ist, dann plane den Termin
             } else {
+                e.planned = true;
                 cout << "Time scheduled: Day: " << e.examTime.day << " Time: " << std::setfill('0')
                             << setw(2) << (int) e.examTime.min/60 + 8 << ":" << setw(2) << e.examTime.min % 60
                             << ", duration " << e.examTime.duration << " Exam: " << e.examNumber << " "
