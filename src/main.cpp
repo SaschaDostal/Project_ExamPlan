@@ -74,7 +74,8 @@ int main() {
                 if (students_.second.count(e.first)) {
                     studentsParticipating.push_back(students_.first);
                     // Wenn der Student keine Zeit hat -> ungütiger Termin
-                    if (!studentParser.testTime(Time(day, min, e.second.examLength), e.second.fieldOfStudy, students_.first)) valid = false;
+                    if (!StudentParser::testTime(Time(day, min, e.second.examLength), students_))
+                        valid = false;
                 }
             }
             if(studentsParticipating.empty()) {
@@ -86,7 +87,7 @@ int main() {
             if (valid) {
                 vector<RoomParser::Room> examRooms = RoomParser::getRoomsForNStudents(studentsParticipating.size(),
                                                                                       Time(day, min, e.second.examLength),
-                                                                                      biggestNRooms);
+                                                                                      &biggestNRooms, &e.second);
                 // Wenn getRoomsForNStudents() kein Raum zurückgibt -> valid = false;
                 if (examRooms.empty()) {
                     goto elseBlock;
@@ -114,6 +115,7 @@ int main() {
                 for (int matrikelNumber : studentsParticipating){
                     students.at(e.second.fieldOfStudy).at(matrikelNumber).at(e.second.getKey()).examTime = e.second.examTime;
                     students.at(e.second.fieldOfStudy).at(matrikelNumber).at(e.second.getKey()).planned = true;
+                    e.second.mtknrs.append(to_string(matrikelNumber)+ ";");
                 }
                 e.second.planned = true;
                 e.second.numStudents = studentsParticipating.size();
@@ -151,9 +153,11 @@ int main() {
     
     // TODO Sortieren der Prüfungen von "allExams" nach examTime (wie unten nur jetzt eben mit der unordered_map)
     vector<pair<string, ExamParser::Exam>> elems(allExams.begin(), allExams.end());
+
     sort(elems.begin(), elems.end(),
               [](const pair<string, ExamParser::Exam>& a, const pair<string,ExamParser::Exam>& b)
                 { return (a.second.examTime.day == b.second.examTime.day)? (a.second.examTime.min < b.second.examTime.min) : (a.second.examTime.day < b.second.examTime.day);});
+
     CSVWriter writer(elems);
 
     printf("%f", difftime(before, time(nullptr)));
