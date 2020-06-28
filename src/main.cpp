@@ -114,8 +114,10 @@ int main() {
     }
     cout << "Number of not plannable exams : " << notPlannedExams.size() << endl;
 
+    /*
     std::sort(allExams.begin(), allExams.end(),
               [](const ExamParser::Exam& a, const ExamParser::Exam& b)
                 { return (a.examTime.day == b.examTime.day)? (a.examTime.min > b.examTime.min) : (a.examTime.day > b.examTime.day);});
+    */
     CSVWriter writer(allExams);
 }
