@@ -86,5 +86,5 @@ void CSVWriter::writeLine(const unordered_map<string, unordered_map<int, unorder
             }
         }
     }
-    cout << a << endl;
+    cout << "Number of students(may include doubles due to exams written in different fields of study): " << a << endl;
 }
