@@ -99,8 +99,11 @@ int main() {
                         for (RoomParser::Room &r2 : biggestNRooms) {
                             if (r1.second.location == r2.location) r2.exams.push_back(e.second);
                         }
-                        e.second.rooms.append(" ");
+                        e.second.rooms.append(" (");
                         e.second.rooms.append(r1.second.location);
+                        e.second.rooms.append("|");
+                        e.second.rooms.append(to_string(r1.second.examinerNr));
+                        e.second.rooms.append(")");
                         e.second.roomCapacity += r1.first;
                     }
                 }
@@ -158,7 +161,7 @@ int main() {
               [](const pair<string, ExamParser::Exam>& a, const pair<string,ExamParser::Exam>& b)
                 { return (a.second.examTime.day == b.second.examTime.day)? (a.second.examTime.min < b.second.examTime.min) : (a.second.examTime.day < b.second.examTime.day);});
 
-    CSVWriter writer(elems);
+    CSVWriter writer(elems, students);
 
     printf("%f", difftime(before, time(nullptr)));
 }
