@@ -30,7 +30,7 @@ public:
         int numStudents;
         int freeSpace;
         std::string mtknrs;
-        std::string getKey() {return fieldOfStudy + std::to_string(examVersion) + std::to_string(examNumber);}
+        std::string getKey() {return fieldOfStudy + "," + std::to_string(examVersion) + "," + std::to_string(examNumber);}
     };
     ExamParser(std::string fileName);
     virtual ~ExamParser();
