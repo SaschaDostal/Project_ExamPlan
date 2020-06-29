@@ -47,6 +47,7 @@ vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::ve
     vector<RoomParser::Room> roomsForNStuds;
     int spaceReseved = 0;
     // Liste der Räume durchlaufen
+    bool sharesRoom = false;
     for(RoomParser::Room& room : *r){
         bool free = true;
         ExamParser::Exam *examWithFreeSpace = nullptr;
@@ -55,7 +56,7 @@ vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::ve
         for(ExamParser::Exam& exam : *examsptr){
             if(!Time::diff(t, exam.examTime, 60)){
                 free = false;
-                if(exam.freeSpace > 0){
+                if((exam.freeSpace > 0) && exam.examTime == t){
                     examWithFreeSpace = &exam;
                     break;
                 }
@@ -64,6 +65,7 @@ vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::ve
         if((examWithFreeSpace != nullptr) /*&& (examWithFreeSpace != lastExam)*/){
             spaceReseved += examWithFreeSpace->freeSpace;
             examWithFreeSpace->freeSpace = 0;
+            sharesRoom = true;
             roomsForNStuds.push_back(room);
         }
         if(free){       // Wenn Raum frei ist, Raum zur Liste roomsForNStuds hinzufügen
@@ -71,7 +73,7 @@ vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::ve
             roomsForNStuds.push_back(room);
         }
         if(spaceReseved >= n){      // Wenn genug Platz reserviert wurde, Liste mit Räumen zurückgeben
-            if(examWithFreeSpace == nullptr) {
+            if(!sharesRoom) {
                 lastExam->freeSpace = spaceReseved - n;
             } else {
                 lastExam->freeSpace = 0;
