@@ -40,19 +40,17 @@ void CSVWriter::writeExams(const std::vector<std::pair<std::string, ExamParser::
         file.close();
         cerr << "error opening file" << endl;
     }
-    /*
+
     file.open("../OutputData/Studenten_Übersicht.csv");
     if(file.is_open()){
         file << "mtknr;tag;uhrzeit" << endl;
-        for (auto& exam : exams){
-            if(!exam.second.planned) writeLine(studentsToWrite);
-        }
+        writeLine(studentsToWrite);
         file.close();
     } else {
         file.close();
         cerr << "error opening file" << endl;
     }
-     */
+
 }
 
 void CSVWriter::writeLine(const ExamParser::Exam& ex){
@@ -74,16 +72,19 @@ void CSVWriter::writeLine(const ExamParser::Exam& ex){
             << endl;
 }
 
-/*
 void CSVWriter::writeLine(const unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>>& studs){
+    int a = 0;
     for (auto& fieldOfStudy : studs) {
         for(auto& stud : fieldOfStudy.second) {
-            file << stud.first << ";";
-            for (auto &exam : stud.second) {
-                file << exam.second.examTime << ";";
+            a++;
+            if(stud.first != 0) {
+                file << stud.first << ";";
+                for (auto &exam : stud.second) {
+                    file << exam.second.examTime << ";";
+                }
+                file << endl;
             }
-            file << endl;
         }
     }
+    cout << a << endl;
 }
-*/
