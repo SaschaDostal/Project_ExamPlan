@@ -85,7 +85,7 @@ int main() {
             }
             // Wenn "valid", dann getRoomsForNStudents()
             if (valid) {
-                vector<RoomParser::Room> examRooms = RoomParser::getRoomsForNStudents(studentsParticipating.size(),
+                vector<pair<int, RoomParser::Room>> examRooms = RoomParser::getRoomsForNStudents(studentsParticipating.size(),
                                                                                       Time(day, min, e.second.examLength),
                                                                                       &biggestNRooms, &e.second);
                 // Wenn getRoomsForNStudents() kein Raum zurückgibt -> valid = false;
@@ -95,13 +95,13 @@ int main() {
                 } else {
                     e.second.examTime = Time(day, min, e.second.examLength);
                     // Prüfung in Liste room->exams und in String exam->room eintragen
-                    for (RoomParser::Room &r1 : examRooms) {
+                    for (auto& r1 : examRooms) {
                         for (RoomParser::Room &r2 : biggestNRooms) {
-                            if (r1.location == r2.location) r2.exams.push_back(e.second);
+                            if (r1.second.location == r2.location) r2.exams.push_back(e.second);
                         }
                         e.second.rooms.append(" ");
-                        e.second.rooms.append(r1.location);
-                        e.second.roomCapacity += r1.seatCount;
+                        e.second.rooms.append(r1.second.location);
+                        e.second.roomCapacity += r1.first;
                     }
                 }
 
