@@ -40,14 +40,34 @@ StudentParser::StudentParser(string fileName, std::unordered_map<std::string, Ex
             continue;
         }
 
+        vector<unordered_map<string, ExamParser::Exam>> otherFieldOfStudyExams;
+        for(auto& fieldOfStudy_ : students){
+            for(auto& stud : fieldOfStudy_.second) {
+                if(stud.first == matrikelNumber && !(fieldOfStudy_.first == fieldOfStudy)){
+                    otherFieldOfStudyExams.push_back(stud.second);
+                    students.at(fieldOfStudy_.first).at(stud.first).insert({key, exam});
+                }
+            }
+        }
+
         // Wenn Student existiert, suche Student in Student-Vector und füge Prüfung hinzu
         if (studExists) {
             if(!students.at(fieldOfStudy).at(matrikelNumber).count(key)) {
                 students.at(fieldOfStudy).at(matrikelNumber).insert({key, exam});
+                if(!otherFieldOfStudyExams .empty()) {
+                    for(auto& exams : otherFieldOfStudyExams) {
+                        students.at(fieldOfStudy).at(matrikelNumber).insert(exams.begin(),exams.end());
+                    }
+                }
             }
         } else {
             // Füge dem Student die Prüfung zu der die Anmeldung gehört hinzu
             students.at(fieldOfStudy).insert({matrikelNumber, {pair<string, ExamParser::Exam>(key, exam)}});
+            if(!otherFieldOfStudyExams.empty()) {
+                for(auto& exams : otherFieldOfStudyExams) {
+                    students.at(fieldOfStudy).at(matrikelNumber).insert(exams.begin(), exams.end());
+                }
+            }
         }
     }
 }
