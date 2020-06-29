@@ -36,4 +36,8 @@ std::ostream& operator <<(std::ostream &out, const Time &time){
     return out;
 }
 
+bool operator ==(const Time &orig, const Time &other){
+    return (orig.day == other.day) && (orig.min == other.min);
+}
+
 Time::~Time() = default;
