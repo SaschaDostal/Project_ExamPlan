@@ -4,6 +4,7 @@
 
 #include "../header/ExamParser.h"
 #include "../header/CSVParser.h"
+#include <iostream>
 using namespace std;
 
 ExamParser::ExamParser(string fileName) : CSVParser(fileName, separator::semicolon){
@@ -27,7 +28,12 @@ ExamParser::ExamParser(string fileName) : CSVParser(fileName, separator::semicol
             exam.freeSpace = 0;
             exam.planned = false;
         }
-        exams.insert({exam.getKey(), exam});
+        pair<unordered_map<string, Exam>::iterator, bool> ret = exams.insert({exam.getKey(), exam});
+        if(!ret.second){
+            cerr << "Exam not unique!" << endl;
+            cerr << "existing one: [" << ret.first->second.getKey() << "]" << endl;
+            cerr << "new one: [" << exam.getKey() << "]" << endl;
+        }
     }
 }
 
