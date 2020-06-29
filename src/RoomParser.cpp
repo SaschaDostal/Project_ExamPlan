@@ -43,11 +43,10 @@ vector<RoomParser::Room> RoomParser::getNBiggestRooms(int n){
     return biggestRooms;
 }
 
-vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::vector<RoomParser::Room>* r, ExamParser::Exam *lastExam) {
-    vector<RoomParser::Room> roomsForNStuds;
+vector<pair<int, RoomParser::Room>> RoomParser::getRoomsForNStudents(int n, Time t, std::vector<RoomParser::Room>* r, ExamParser::Exam *lastExam) {
+    vector<pair<int, RoomParser::Room>> roomsForNStuds;
     int spaceReseved = 0;
     // Liste der Räume durchlaufen
-    bool sharesRoom = false;
     for(RoomParser::Room& room : *r){
         bool free = true;
         ExamParser::Exam *examWithFreeSpace = nullptr;
@@ -62,26 +61,22 @@ vector<RoomParser::Room> RoomParser::getRoomsForNStudents(int n, Time t, std::ve
                 }
             }
         }
-        if((examWithFreeSpace != nullptr) /*&& (examWithFreeSpace != lastExam)*/){
-            spaceReseved += examWithFreeSpace->freeSpace;
+        if((examWithFreeSpace != nullptr && examWithFreeSpace->freeSpace >= n) /*&& (examWithFreeSpace != lastExam)*/){
+            roomsForNStuds.push_back({examWithFreeSpace->freeSpace, room});
             examWithFreeSpace->freeSpace = 0;
-            sharesRoom = true;
-            roomsForNStuds.push_back(room);
+            lastExam->freeSpace = 0;
+            return roomsForNStuds;
         }
         if(free){       // Wenn Raum frei ist, Raum zur Liste roomsForNStuds hinzufügen
             spaceReseved += room.seatCount;
-            roomsForNStuds.push_back(room);
+            roomsForNStuds.push_back({room.seatCount, room});
         }
         if(spaceReseved >= n){      // Wenn genug Platz reserviert wurde, Liste mit Räumen zurückgeben
-            if(!sharesRoom) {
-                lastExam->freeSpace = spaceReseved - n;
-            } else {
-                lastExam->freeSpace = 0;
-            }
+            lastExam->freeSpace = spaceReseved - n;
             return roomsForNStuds;
         }
     }
     //Wenn nicht genug Platz reserviert werden konnte, leere Liste zurückgeben
-    vector<RoomParser::Room> empty;
+    vector<pair<int, RoomParser::Room>> empty;
     return empty;
 }
