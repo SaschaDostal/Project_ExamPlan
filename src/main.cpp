@@ -116,9 +116,14 @@ int main() {
 
                 // Aktualisieren der Zeit der Klausur für alle Studenten die mitschreiben
                 for (int matrikelNumber : studentsParticipating){
-                    students.at(e.second.fieldOfStudy).at(matrikelNumber).at(e.second.getKey()).examTime = e.second.examTime;
-                    students.at(e.second.fieldOfStudy).at(matrikelNumber).at(e.second.getKey()).planned = true;
-                    e.second.mtknrs.append(to_string(matrikelNumber)+ ";");
+                    for (auto& s : students) {
+                        if(s.second.count(matrikelNumber)) {
+                            students.at(s.first).at(matrikelNumber).at(
+                                    e.second.getKey()).examTime = e.second.examTime;
+                            students.at(s.first).at(matrikelNumber).at(e.second.getKey()).planned = true;
+                            e.second.mtknrs.append(to_string(matrikelNumber) + ";");
+                        }
+                    }
                 }
                 e.second.planned = true;
                 e.second.numStudents = studentsParticipating.size();
