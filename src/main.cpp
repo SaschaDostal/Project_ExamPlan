@@ -10,10 +10,12 @@
 #include <algorithm>
 
 using namespace std;
+using namespace chrono;
 
 vector<std::vector<ExamParser::Exam>> splitExams(const std::vector<ExamParser::Exam>& vec, size_t n);
 
 int main() {
+    unsigned long long start = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
     //example use of roomParser:
     string roomFile = "../InputData/Raumliste.csv";
     RoomParser roomParser(roomFile);
@@ -53,8 +55,6 @@ int main() {
 
         } else { break;}
     }*/
-
-    time_t before = time(nullptr);
 
     // Schleife um allen Prüfungen einen Termin zuzuordnen
     int examsWithoutStudents = 0;
@@ -168,5 +168,7 @@ int main() {
 
     CSVWriter writer(elems, students);
 
-    printf("%f", difftime(before, time(nullptr)));
+    unsigned long long finish = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+    double diff = (finish-start)/1000.;
+    printf("Ran for: %f seconds", diff);
 }
