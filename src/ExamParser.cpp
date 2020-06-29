@@ -30,9 +30,9 @@ ExamParser::ExamParser(string fileName) : CSVParser(fileName, separator::semicol
         }
         pair<unordered_map<string, Exam>::iterator, bool> ret = exams.insert({exam.getKey(), exam});
         if(!ret.second){
-            cerr << "Exam not unique!" << endl;
-            cerr << "existing one: [" << ret.first->second.getKey() << "]" << endl;
-            cerr << "new one: [" << exam.getKey() << "]" << endl;
+            cerr << "Exam not uniquely identified by [stg,pversion,pnr]!" << endl;
+            cerr << "existing one: [" << ret.first->second.getKey() << "] vert: " << ret.first->second.distributor << endl;
+            cerr << "new one: [" << exam.getKey() << "] vert: " << exam.distributor << endl;
         }
     }
 }
