@@ -1,4 +1,4 @@
-stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;räume;rkapazität;anzstudenten;restplatz;tag;uhrzeit;mtknr
+stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;(räume|aufsicht);rkapazität;anzstudenten;restplatz;tag;uhrzeit
 PB;0;182;2030;Mathematik 2;1436;120;KL;20201;J;;0;0;0;0;08:00;
 WBI;0;201;642011040;Volkswirtschaft + Recht 1;7410;120;KL;20201;J;;0;0;0;0;08:00;
 IM;0;172;19130;Internationaler ÖPNV;6874;60;KL;20201;J;;0;0;0;0;08:00;
