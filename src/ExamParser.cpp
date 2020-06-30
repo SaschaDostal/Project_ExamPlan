@@ -4,6 +4,7 @@
 
 #include "../header/ExamParser.h"
 #include "../header/CSVParser.h"
+#include <iostream>
 using namespace std;
 
 ExamParser::ExamParser(string fileName) : CSVParser(fileName, separator::semicolon){
@@ -23,14 +24,21 @@ ExamParser::ExamParser(string fileName) : CSVParser(fileName, separator::semicol
             exam.examSemester = stoi(examData.at(11));
             exam.provided = (examData.at(12) == "J");
             exam.examTime.duration = exam.examLength;
+            exam.roomCapacity = 0;
+            exam.freeSpace = 0;
             exam.planned = false;
         }
-        exams.push_back(exam);
+        pair<unordered_map<string, Exam>::iterator, bool> ret = exams.insert({exam.getKey(), exam});
+        if(!ret.second){
+            cerr << "Exam not uniquely identified by [stg,pversion,pnr]!" << endl;
+            cerr << "existing one: [" << ret.first->second.getKey() << "] vert: " << ret.first->second.distributor << endl;
+            cerr << "new one: [" << exam.getKey() << "] vert: " << exam.distributor << endl;
+        }
     }
 }
 
 ExamParser::~ExamParser() = default;
 
-vector<ExamParser::Exam>& ExamParser::getExams() {
+unordered_map<string, ExamParser::Exam>& ExamParser::getExams() {
     return exams;
 }

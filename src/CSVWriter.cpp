@@ -7,31 +7,53 @@
 
 using namespace std;
 
-CSVWriter::CSVWriter(vector<ExamParser::Exam> examsToWrite) {
-    writeExams(examsToWrite, separator::semicolon);
+CSVWriter::CSVWriter(const std::vector<std::pair<std::string, ExamParser::Exam>>& examsToWrite, const unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>>& studentsToWrite) {
+    writeExams(examsToWrite, studentsToWrite, separator::semicolon);
 }
 
-CSVWriter::CSVWriter(vector<ExamParser::Exam> examsToWrite, separator separator) {
-    writeExams(examsToWrite, separator);
+CSVWriter::CSVWriter(const std::vector<std::pair<std::string, ExamParser::Exam>>& examsToWrite, const unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>>& studentsToWrite, separator separator) {
+    writeExams(examsToWrite, studentsToWrite, separator);
 }
 
 CSVWriter::~CSVWriter() = default;
 
-void CSVWriter::writeExams(std::vector<ExamParser::Exam> exams, separator separator) {
+void CSVWriter::writeExams(const std::vector<std::pair<std::string, ExamParser::Exam>>& exams, const unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>>& studentsToWrite, separator separator) {
     file.open("../OutputData/Geplante_Prüfungen.csv");
     if(file.is_open()){
-        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;r\xE4ume;tag;uhrzeit" << endl;
-        for (int i=0; i<exams.size(); i++){
-            if(exams[i].planned) writeLine(exams[i]);
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;(r\xE4ume|aufsicht);rkapazit\xE4t;anzstudenten;restplatz;tag;uhrzeit" << endl;
+        for (auto& exam : exams){
+            if(exam.second.planned) writeLine(exam.second);
         }
         file.close();
     } else {
         file.close();
         cerr << "error opening file" << endl;
     }
+    file.open("../OutputData/Ungeplante_Prüfungen.csv");
+    if(file.is_open()){
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;(r\xE4ume|aufsicht);rkapazit\xE4t;anzstudenten;restplatz;tag;uhrzeit" << endl;
+        for (auto& exam : exams){
+            if(!exam.second.planned) writeLine(exam.second);
+        }
+        file.close();
+    } else {
+        file.close();
+        cerr << "error opening file" << endl;
+    }
+
+    file.open("../OutputData/Studenten_Übersicht.csv");
+    if(file.is_open()){
+        file << "mtknr;tag;uhrzeit" << endl;
+        writeLine(studentsToWrite);
+        file.close();
+    } else {
+        file.close();
+        cerr << "error opening file" << endl;
+    }
+
 }
 
-void CSVWriter::writeLine(ExamParser::Exam ex){
+void CSVWriter::writeLine(const ExamParser::Exam& ex){
     file    << ex.fieldOfStudy << ";"
             << ex.distributor << ";"
             << ex.examVersion << ";"
@@ -43,6 +65,26 @@ void CSVWriter::writeLine(ExamParser::Exam ex){
             << ex.examSemester << ";"
             << (ex.provided ? "J" : "N") << ";"
             << ex.rooms << ";"
-            << ex.examTime
+            << ex.roomCapacity << ";"
+            << ex.numStudents << ";"
+            //<< ex.freeSpace << ";"
+            << ex.examTime << ";"
             << endl;
+}
+
+void CSVWriter::writeLine(const unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>>& studs){
+    int a = 0;
+    for (auto& fieldOfStudy : studs) {
+        for(auto& stud : fieldOfStudy.second) {
+            a++;
+            if(stud.first != 0) {
+                file << stud.first << ";";
+                for (auto &exam : stud.second) {
+                    file << exam.second.examTime << ";";
+                }
+                file << endl;
+            }
+        }
+    }
+    cout << "Number of students(may include doubles due to exams written in different fields of study): " << a << endl;
 }
