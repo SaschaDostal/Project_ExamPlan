@@ -21,6 +21,7 @@ public:
     // Dauer
     int duration;
     friend std::ostream& operator <<(std::ostream &out, const Time &time);
+    friend bool operator ==(const Time &orig, const Time &other);
     virtual ~Time();
 private:
 };

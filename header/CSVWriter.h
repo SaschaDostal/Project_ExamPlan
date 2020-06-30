@@ -12,13 +12,14 @@
 class CSVWriter {
 public:
     enum class separator{ comma, semicolon};
-    CSVWriter(std::vector<ExamParser::Exam> examsToWrite);
-    CSVWriter(std::vector<ExamParser::Exam> examsToWrite, separator separator);
+    CSVWriter(const std::vector<std::pair<std::string, ExamParser::Exam>>& examsToWrite, const std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>>& studentsToWrite);
+    CSVWriter(const std::vector<std::pair<std::string, ExamParser::Exam>>& examsToWrite, const std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>>& studentsToWrite, separator separator);
     virtual ~CSVWriter();
 
 private:
-    void writeLine(ExamParser::Exam ex);
-    void writeExams(std::vector<ExamParser::Exam> exams, separator separator);
+    void writeLine(const ExamParser::Exam& ex);
+    void writeLine(const std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>>& stud);
+    void writeExams(const std::vector<std::pair<std::string, ExamParser::Exam>>& exams, const std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>>& studentsToWrite, separator separator);
     std::ofstream file;
 };
 
