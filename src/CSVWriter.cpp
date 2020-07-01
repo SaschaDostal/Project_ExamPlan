@@ -20,7 +20,7 @@ CSVWriter::~CSVWriter() = default;
 void CSVWriter::writeExams(const std::vector<std::pair<std::string, ExamParser::Exam>>& exams, const unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>>& studentsToWrite, separator separator) {
     file.open("../OutputData/Geplante_Prüfungen.csv");
     if(file.is_open()){
-        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;(r\xE4ume|aufsicht);rkapazit\xE4t;anzstudenten;restplatz;tag;uhrzeit" << endl;
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;(r\xE4ume|aufsicht);rkapazit\xE4t;anzstudenten;tag;uhrzeit" << endl;
         for (auto& exam : exams){
             if(exam.second.planned) writeLine(exam.second);
         }
@@ -31,7 +31,7 @@ void CSVWriter::writeExams(const std::vector<std::pair<std::string, ExamParser::
     }
     file.open("../OutputData/Ungeplante_Prüfungen.csv");
     if(file.is_open()){
-        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;(r\xE4ume|aufsicht);rkapazit\xE4t;anzstudenten;restplatz;tag;uhrzeit" << endl;
+        file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;(r\xE4ume|aufsicht);rkapazit\xE4t;anzstudenten;tag;uhrzeit" << endl;
         for (auto& exam : exams){
             if(!exam.second.planned) writeLine(exam.second);
         }
