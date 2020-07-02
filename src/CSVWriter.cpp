@@ -29,7 +29,7 @@ void CSVWriter::writeExams(const std::vector<std::pair<std::string, ExamParser::
         file.close();
         cerr << "error opening file" << endl;
     }
-    file.open("../OutputData/Ungeplante_Prüfungen.csv");
+    file.open("../OutputData/Ungeplante_Prüfungen.csv", ofstream::trunc);
     if(file.is_open()){
         file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;(r\xE4ume|aufsicht);rkapazit\xE4t;anzstudenten;tag;uhrzeit" << endl;
         for (auto& exam : exams){
