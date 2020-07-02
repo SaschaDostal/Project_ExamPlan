@@ -77,8 +77,6 @@ void CSVWriter::writeLine(const ExamParser::Exam& ex){
 }
 
 void CSVWriter::writeLine(const pair<int, unordered_map<string, ExamParser::Exam>>& stud){
-    int a = 0;
-    a++;
     if(stud.first != 0) {
         file << stud.first << ";";
         for (auto &exam : stud.second) {
@@ -86,5 +84,4 @@ void CSVWriter::writeLine(const pair<int, unordered_map<string, ExamParser::Exam
         }
         file << endl;
     }
-    cout << "Number of students(may include doubles due to exams written in different fields of study): " << a << endl;
 }
