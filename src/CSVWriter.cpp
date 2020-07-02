@@ -44,7 +44,11 @@ void CSVWriter::writeExams(const std::vector<std::pair<std::string, ExamParser::
     file.open("../OutputData/Studenten_Übersicht.csv");
     if(file.is_open()){
         file << "mtknr;tag;uhrzeit" << endl;
-        writeLine(studentsToWrite);
+        for (auto& fieldOfStudy : studentsToWrite) {
+            for(auto& stud : fieldOfStudy.second) {
+                writeLine(stud);
+            }
+        }
         file.close();
     } else {
         file.close();
@@ -72,19 +76,15 @@ void CSVWriter::writeLine(const ExamParser::Exam& ex){
             << endl;
 }
 
-void CSVWriter::writeLine(const unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>>& studs){
+void CSVWriter::writeLine(const pair<int, unordered_map<string, ExamParser::Exam>>& stud){
     int a = 0;
-    for (auto& fieldOfStudy : studs) {
-        for(auto& stud : fieldOfStudy.second) {
-            a++;
-            if(stud.first != 0) {
-                file << stud.first << ";";
-                for (auto &exam : stud.second) {
-                    file << exam.second.examTime << ";";
-                }
-                file << endl;
-            }
+    a++;
+    if(stud.first != 0) {
+        file << stud.first << ";";
+        for (auto &exam : stud.second) {
+            file << exam.second.examTime << ";";
         }
+        file << endl;
     }
     cout << "Number of students(may include doubles due to exams written in different fields of study): " << a << endl;
 }
