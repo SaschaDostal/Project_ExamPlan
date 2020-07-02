@@ -18,7 +18,7 @@ public:
 
 private:
     void writeLine(const ExamParser::Exam& ex);
-    void writeLine(const std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>>& stud);
+    void writeLine(const std::pair<int, std::unordered_map<std::string, ExamParser::Exam>>& stud);
     void writeExams(const std::vector<std::pair<std::string, ExamParser::Exam>>& exams, const std::unordered_map<std::string, std::unordered_map<int, std::unordered_map<std::string, ExamParser::Exam>>>& studentsToWrite, separator separator);
     std::ofstream file;
 };

@@ -29,7 +29,7 @@ void CSVWriter::writeExams(const std::vector<std::pair<std::string, ExamParser::
         file.close();
         cerr << "error opening file" << endl;
     }
-    file.open("../OutputData/Ungeplante_Prüfungen.csv");
+    file.open("../OutputData/Ungeplante_Prüfungen.csv", ofstream::trunc);
     if(file.is_open()){
         file << "stg;vert;pversion;pnr;pdtxt;ppruefer;pdauer;pform;psem;angeboten;(r\xE4ume|aufsicht);rkapazit\xE4t;anzstudenten;tag;uhrzeit" << endl;
         for (auto& exam : exams){
@@ -44,7 +44,11 @@ void CSVWriter::writeExams(const std::vector<std::pair<std::string, ExamParser::
     file.open("../OutputData/Studenten_Übersicht.csv");
     if(file.is_open()){
         file << "mtknr;tag;uhrzeit" << endl;
-        writeLine(studentsToWrite);
+        for (auto& fieldOfStudy : studentsToWrite) {
+            for(auto& stud : fieldOfStudy.second) {
+                writeLine(stud);
+            }
+        }
         file.close();
     } else {
         file.close();
@@ -72,19 +76,12 @@ void CSVWriter::writeLine(const ExamParser::Exam& ex){
             << endl;
 }
 
-void CSVWriter::writeLine(const unordered_map<string, unordered_map<int, unordered_map<string, ExamParser::Exam>>>& studs){
-    int a = 0;
-    for (auto& fieldOfStudy : studs) {
-        for(auto& stud : fieldOfStudy.second) {
-            a++;
-            if(stud.first != 0) {
-                file << stud.first << ";";
-                for (auto &exam : stud.second) {
-                    file << exam.second.examTime << ";";
-                }
-                file << endl;
-            }
+void CSVWriter::writeLine(const pair<int, unordered_map<string, ExamParser::Exam>>& stud){
+    if(stud.first != 0) {
+        file << stud.first << ";";
+        for (auto &exam : stud.second) {
+            file << exam.second.examTime << ";";
         }
+        file << endl;
     }
-    cout << "Number of students(may include doubles due to exams written in different fields of study): " << a << endl;
 }
